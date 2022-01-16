@@ -27,11 +27,11 @@
   // unordered list
   li {
     &:not(:last-child) {
-      margin-right: 1.5rem;
+      margin-right: 2rem;
     }
     a {
       color: var(--white);
-      font-weight: var(--fw);
+      font-weight: normal;
       font-size: calc(var(--fz) - 25%);
       &:link {
         text-decoration: none;
