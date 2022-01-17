@@ -97,9 +97,6 @@ h6 {
   }
 }
 /* Bellow my custom addons*/
-/* Add to html element Inline flex center v, h */
-.globalInlineFlexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:root {
+  --red: #77002e;
 }
