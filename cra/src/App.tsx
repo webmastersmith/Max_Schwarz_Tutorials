@@ -5,21 +5,20 @@ import {
   NewMeetUpsPage,
   FavoriteMeetUpsPage,
 } from 'pages'
-import { Nav } from 'components'
-import styles from './App.module.scss'
+import { Nav, Container } from 'components'
 
 function App() {
   return (
     <BrowserRouter>
       <Nav />
-      <div className={styles.container}>
+      <Container>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="all_meetups" element={<AllMeetUpsPage />} />
           <Route path="new_meetups" element={<NewMeetUpsPage />} />
           <Route path="favorite_meetups" element={<FavoriteMeetUpsPage />} />
         </Routes>
-      </div>
+      </Container>
     </BrowserRouter>
   )
 }

@@ -1,0 +1,26 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.card {
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 5px 5px 10px #000;
+  overflow: hidden;
+  img {
+    display: block;
+  }
+  .bottom {
+    padding: 2rem;
+    display: grid;
+    gap: 1rem;
+  }
+  .button {
+    display: flex;
+    justify-content: center;
+    button {
+      width: 60%;
+    }
+  }
+}

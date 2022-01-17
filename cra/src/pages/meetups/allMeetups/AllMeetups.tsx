@@ -9,24 +9,3 @@ export const AllMeetUpsPage: FC<{}> = (): JSX.Element => {
     </div>
   )
 }
-// <ul role="list" className="globalInlineFlexCenter">
-//   {DUMMY_DATA.map(
-//     ({ id, title, address, description, image }: Data): JSX.Element => {
-//       return (
-//         <li key={id}>
-//           {/* <div>
-//             <img src={image} alt={title} />
-//           </div> */}
-//           <div>
-//             <h3>{title}</h3>
-//             <address>{address}</address>
-//             <p>{description}</p>
-//           </div>
-//           <div>
-//             <button>Save to Favorites</button>
-//           </div>
-//         </li>
-//       )
-//     }
-//   )}
-// </ul>

@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import { Data } from 'components'
+import { MeetupCard } from 'pages'
+import styles from './MeetupCard.module.scss'
 
 export const MeetupList = ({ meetups }: { meetups: Data[] }): JSX.Element => {
   return (
-    // eslint-disable-next-line jsx-a11y/no-redundant-roles
-    <ul role="list">
+    <ul role="list" className={styles.container}>
       {meetups.map((meetup: Data) => {
         return <MeetupItem meetup={meetup} key={meetup.id} />
       })}
@@ -18,18 +19,20 @@ export const MeetupItem = ({
   meetup: Data
 }): JSX.Element => {
   return (
-    <li>
-      <div>
+    <MeetupCard>
+      <li>
         <img src={image} alt={title} />
-      </div>
-      <div>
-        <h3>{title}</h3>
-        <address>{address}</address>
-        <p>{description}</p>
-      </div>
-      <div>
-        <button>Save to Favorites</button>
-      </div>
-    </li>
+        <div className={styles.bottom}>
+          <div>
+            <h3>{title}</h3>
+            <address>{address}</address>
+            <p>{description}</p>
+          </div>
+          <div className={styles.button}>
+            <button>Save to Favorites</button>
+          </div>
+        </div>
+      </li>
+    </MeetupCard>
   )
 }
