@@ -1,0 +1,9 @@
+.form {
+  display: grid;
+  padding: 1rem;
+  gap: 1rem;
+  input,
+  textarea {
+    width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 export * from './home/Home'
 export * from './meetups/allMeetups/AllMeetups'
-export * from './meetups/newMeetups/NewMeetUps'
+export * from './meetups/newMeetups/NewMeetups'
 export * from './meetups/favoriteMeetups/Favorites'
 export * from './meetups/meetupUtils'
 export * from './meetups/MeetupCard'

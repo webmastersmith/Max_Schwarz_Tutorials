@@ -1,9 +1,11 @@
 import { FC } from 'react'
+import { NewMeetupForm } from './NewMeetupForm'
 
-export const NewMeetUpsPage: FC<{}> = (): JSX.Element => {
+export const NewMeetUpsPage: FC = (): JSX.Element => {
   return (
-    <div>
-      <div>NewMeetUpsPage</div>
-    </div>
+    <section>
+      <h1>Add New Meetup</h1>
+      <NewMeetupForm />
+    </section>
   )
 }

@@ -9,7 +9,8 @@
   box-shadow: 5px 5px 10px #000;
   overflow: hidden;
   img {
-    display: block;
+    background-color: grey;
+    object-fit: cover;
   }
   .bottom {
     padding: 2rem;

@@ -21,7 +21,7 @@ export const MeetupItem = ({
   return (
     <MeetupCard>
       <li>
-        <img src={image} alt={title} />
+        <img src={image} alt={title} width="100%" height="400px" />
         <div className={styles.bottom}>
           <div>
             <h3>{title}</h3>
