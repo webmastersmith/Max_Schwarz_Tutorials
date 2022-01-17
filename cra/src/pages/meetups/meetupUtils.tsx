@@ -1,25 +1,24 @@
-import { FC } from 'react'
+/* eslint-disable jsx-a11y/no-redundant-roles */
 import { Data } from 'components'
 
-export const MeetupList: FC<{ items: Data[] }> = ({ items }): JSX.Element => {
+export const MeetupList = ({ meetups }: { meetups: Data[] }): JSX.Element => {
   return (
+    // eslint-disable-next-line jsx-a11y/no-redundant-roles
     <ul role="list">
-      {items.map((data: Data) => {
-        return meetupItem(data)
+      {meetups.map((meetup: Data) => {
+        return <MeetupItem meetup={meetup} key={meetup.id} />
       })}
     </ul>
   )
 }
 
-export const meetupItem: FC<Data> = ({
-  id,
-  title,
-  address,
-  description,
-  image,
+export const MeetupItem = ({
+  meetup: { title, address, description, image },
+}: {
+  meetup: Data
 }): JSX.Element => {
   return (
-    <li key={id}>
+    <li>
       {/* <div>
     <img src={image} alt={title} />
   </div> */}
