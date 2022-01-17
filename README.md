@@ -1,1 +1,1 @@
-# Max_Schwarz_Tutorials
+# Maximilian Schwarzmüller Tutorials
