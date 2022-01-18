@@ -100,3 +100,10 @@ h6 {
 :root {
   --red: #77002e;
 }
+
+a.active {
+  color: var(--red);
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1px 5px;
+}

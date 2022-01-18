@@ -23,19 +23,18 @@
   &:link {
     text-decoration: none;
   }
-
-  // unordered list
-  li {
-    &:not(:last-child) {
-      margin-right: 2rem;
-    }
-    a {
-      color: var(--white);
-      font-weight: normal;
-      font-size: calc(var(--fz) - 25%);
-      &:link {
-        text-decoration: none;
-      }
+}
+// unordered list
+li {
+  &:not(:last-child) {
+    margin-right: 2rem;
+  }
+  a {
+    color: var(--white);
+    font-weight: normal;
+    font-size: calc(var(--fz) - 25%);
+    &:link {
+      text-decoration: none;
     }
   }
 }
