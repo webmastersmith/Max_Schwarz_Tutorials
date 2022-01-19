@@ -1,7 +1,16 @@
-import { FC, FormEvent, useState, Dispatch, SetStateAction } from 'react'
+import {
+  FC,
+  FormEvent,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useCallback,
+} from 'react'
+import { FavoritesContext } from 'store'
 import { useNavigate } from 'react-router-dom'
-import { MeetupCard } from 'pages'
 import styles from './NewMeetupForm.module.scss'
+import cardStyles from '../MeetupCard.module.scss'
 
 interface FormData {
   id: string
@@ -18,6 +27,11 @@ export const NewMeetupForm: FC<{}> = (): JSX.Element => {
   const [image, setImage] = useState('')
   const [address, setAddress] = useState('')
   const [description, setDescription] = useState('')
+  const { addData, addFavorite } = useContext(FavoritesContext)
+  const uid = useCallback(
+    () => new Date().getTime() + Math.random().toString(16).slice(2),
+    []
+  )
 
   const formData: FormData[] = [
     {
@@ -56,24 +70,26 @@ export const NewMeetupForm: FC<{}> = (): JSX.Element => {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault()
+
     // each are html nodes
-    console.log({
-      title: title,
-      image: image,
-      address: address,
-      description: description,
+    addData({
+      id: uid(),
+      title,
+      image,
+      address,
+      description,
     })
     setTitle('')
     setImage('')
     setAddress('')
     setDescription('')
-    navigate('/')
+    navigate('/all_meetups')
   }
   function handleChange(e: any, fn: Dispatch<SetStateAction<string>>): void {
     fn(e.target.value)
   }
   return (
-    <MeetupCard>
+    <div className={cardStyles.card}>
       <form className={styles.form} onSubmit={handleSubmit}>
         {formData.map(
           ({ id, msg, type, required, value, fn }: FormData, i: number) => {
@@ -94,6 +110,6 @@ export const NewMeetupForm: FC<{}> = (): JSX.Element => {
           <button>Add Meetup</button>
         </div>
       </form>
-    </MeetupCard>
+    </div>
   )
 }

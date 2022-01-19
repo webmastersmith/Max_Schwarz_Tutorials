@@ -1,11 +1,13 @@
-import { FC } from 'react'
-import { DUMMY_DATA } from 'components'
-import { MeetupList } from 'pages'
+import { FC, useContext } from 'react'
+// import { DUMMY_DATA } from 'components'
+import { FavoritesContext } from 'store'
+import { MeetupCard } from 'pages'
 
 export const AllMeetUpsPage: FC<{}> = (): JSX.Element => {
+  const { data } = useContext(FavoritesContext)
   return (
     <div>
-      <MeetupList meetups={DUMMY_DATA} />
+      <MeetupCard meetups={data} />
     </div>
   )
 }
