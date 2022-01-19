@@ -4,7 +4,7 @@
   background-color: var(--red, #77002e);
 }
 
-.flexer {
+.flexRowCenter {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,4 +37,18 @@ li {
       text-decoration: none;
     }
   }
+}
+
+.pageLink {
+  position: relative;
+}
+.favoritesBadge {
+  position: absolute;
+  top: -6px;
+  right: -14px;
+  border-radius: 50%;
+  font-size: small;
+  line-height: 0.5;
+  padding: 8px;
+  background-color: #cc2062;
 }

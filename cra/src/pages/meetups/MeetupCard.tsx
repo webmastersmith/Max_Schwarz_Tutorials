@@ -15,8 +15,9 @@ export const MeetupCard = ({ meetups }: { meetups: Data[] }): JSX.Element => {
 }
 
 const MeetupItem = ({ meetup }: { meetup: Data }): JSX.Element => {
-  const { title, address, description, image } = meetup
-  const { addFavorite } = useContext(FavoritesContext)
+  const { title, address, description, image, id } = meetup
+  const { addFavorite, itemIsFavorite, removeFavorite } =
+    useContext(FavoritesContext)
   return (
     <div className={styles.card}>
       <li>
@@ -28,8 +29,14 @@ const MeetupItem = ({ meetup }: { meetup: Data }): JSX.Element => {
             <p>{description}</p>
           </div>
           <div className={styles.button}>
-            <button onClick={() => addFavorite(meetup)}>
-              Save to Favorites
+            <button
+              onClick={() =>
+                itemIsFavorite(id) ? removeFavorite(id) : addFavorite(meetup)
+              }
+            >
+              {itemIsFavorite(id)
+                ? 'Remove from Favorites'
+                : 'Save to Favorites'}
             </button>
           </div>
         </div>
