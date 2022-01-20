@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 
-export const hello = 'hello'
+export const test = 'test'
 
-export const AboutPage: NextPage = () => {
+const AboutPage: NextPage = () => {
   return <div>AboutPage</div>
 }
 
