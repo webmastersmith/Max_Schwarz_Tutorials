@@ -9,7 +9,7 @@ interface AppProps {
 
 export const EventList = ({ events }: AppProps): JSX.Element => {
   return (
-    <ul role="list">
+    <ul role="list" className={styles.eventList}>
       {events.map((event: EventsType) => {
         const { id, image, title, date, location } = event
         const humanReadableDate = new Date(date).toLocaleString('en-US', {
@@ -18,17 +18,12 @@ export const EventList = ({ events }: AppProps): JSX.Element => {
           year: 'numeric',
         })
         return (
-          <li key={id} className={styles.eventList}>
+          <li key={id} className={styles.eventItem}>
             <div className={styles.eventImage}>
-              <Image
-                src={'/' + image}
-                alt={title}
-                layout="fill"
-                objectFit="cover"
-              />
+              <Image src={'/' + image} alt={title} layout="fill" />
             </div>
 
-            <div>
+            <div className={styles.eventText}>
               <div>
                 <h2>{title}</h2>
                 <div>
@@ -38,7 +33,8 @@ export const EventList = ({ events }: AppProps): JSX.Element => {
                   <address>{location.replace(', ', '\n')}</address>
                 </div>
               </div>
-              <div>
+
+              <div className={styles.eventLink}>
                 <Link href={`/events/${id}`}>Explore Event</Link>
               </div>
             </div>
