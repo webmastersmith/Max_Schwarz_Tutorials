@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import styles from '../styles/HomePage.module.css'
-import Link from 'next/link'
-import { getAllEvents, EventsType } from 'data'
+import { getAllEvents } from 'data'
 import { EventList } from 'components'
 
 const HomePage: NextPage = () => {
@@ -9,13 +8,7 @@ const HomePage: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      Hello Next World!
-      <ul role="list">
-        {events.map((event: EventsType) => {
-          const { id } = event
-          return <EventList event={event} key={id} />
-        })}
-      </ul>
+      <EventList events={events} />
     </div>
   )
 }
