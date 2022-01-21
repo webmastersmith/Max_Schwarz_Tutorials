@@ -1,20 +1,23 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/HomePage.module.css'
 import Link from 'next/link'
+import { getAllEvents, EventsType } from 'data'
+import { EventList } from 'components'
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
+  const events = getAllEvents()
+
   return (
     <div className={styles.container}>
       Hello Next World!
-      <ul>
-        <li>
-          <Link href="/events">Events</Link>
-        </li>
+      <ul role="list">
+        {events.map((event: EventsType) => {
+          const { id } = event
+          return <EventList event={event} key={id} />
+        })}
       </ul>
     </div>
   )
 }
 
-export default Home
+export default HomePage
