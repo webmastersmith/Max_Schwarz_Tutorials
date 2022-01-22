@@ -1,5 +1,5 @@
 import { AddressIcon, DateIcon } from 'ui'
-import styles from './EventText.module.scss'
+import styles from './EventCardText.module.scss'
 import classes from './EventCard.module.scss'
 
 interface AppProps {

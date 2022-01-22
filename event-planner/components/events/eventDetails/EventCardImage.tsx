@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import styles from './EventImage.module.scss'
+import styles from './EventCardImage.module.scss'
 
 interface AppProps {
   image: string
