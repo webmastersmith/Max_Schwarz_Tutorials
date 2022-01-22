@@ -7,9 +7,8 @@ const EventDetail: NextPage = () => {
   const { slug } = router.query
 
   if (slug) {
-    console.log(getEventById(slug))
+    console.log(getEventById(slug as string))
   }
-  console.log(typeof slug)
 
   return <div>EventDetail</div>
 }
