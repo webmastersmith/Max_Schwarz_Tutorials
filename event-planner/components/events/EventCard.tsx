@@ -1,15 +1,16 @@
 import Link from 'next/link'
 import { EventsType } from 'data'
 import Image from 'next/image'
-import styles from './EventList.module.scss'
+import styles from './EventCard.module.scss'
+import { Button, DateIcon, AddressIcon, ArrowRightIcon } from 'ui'
 
 interface AppProps {
   events: EventsType[]
 }
 
-export const EventList = ({ events }: AppProps): JSX.Element => {
+export const EventCard = ({ events }: AppProps): JSX.Element => {
   return (
-    <ul role="list" className={styles.eventList}>
+    <ul role="list" className={styles.eventCard}>
       {events.map((event: EventsType) => {
         const { id, image, title, date, location } = event
         const humanReadableDate = new Date(date).toLocaleString('en-US', {
@@ -26,16 +27,25 @@ export const EventList = ({ events }: AppProps): JSX.Element => {
             <div className={styles.eventText}>
               <div>
                 <h2>{title}</h2>
-                <div>
+                <div className={`${styles.icon} ${styles.date}`}>
+                  <DateIcon />
                   <time>{humanReadableDate}</time>
                 </div>
-                <div>
+                <div className={styles.icon}>
+                  <AddressIcon />
                   <address>{location.replace(', ', '\n')}</address>
                 </div>
               </div>
 
-              <div className={styles.eventLink}>
-                <Link href={`/events/${id}`}>Explore Event</Link>
+              <div className={styles.eventButton}>
+                <Button href={`/events/${id}`}>
+                  <span className={styles.buttonIcon}>
+                    Explore Event
+                    <span>
+                      <ArrowRightIcon />
+                    </span>
+                  </span>
+                </Button>
               </div>
             </div>
           </li>
