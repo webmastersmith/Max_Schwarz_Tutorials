@@ -65,16 +65,8 @@ export function getFilteredEvents(dateFilter: {
   return filteredEvents
 }
 
-export function getEventById(id: string): EventsType {
+export function getEventById(id: string): EventsType | undefined {
   const event = DUMMY_EVENTS.find((event) => event.id === id)
-  if (event) return event
-  return {
-    id: '',
-    title: '',
-    description: '',
-    location: '',
-    date: '',
-    image: '',
-    isFeatured: false,
-  }
+  // can be type EventsType or undefined.
+  return event
 }

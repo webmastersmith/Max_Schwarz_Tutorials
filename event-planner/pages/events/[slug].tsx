@@ -1,15 +1,18 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { getEventById, EventsType } from 'data'
-import { EventCard } from 'components'
+import { EventDetail } from 'components'
 
-const EventDetail: NextPage = () => {
+const EventDetailPage: NextPage = () => {
   const router = useRouter()
   const { slug } = router.query
 
   const event = getEventById(slug as string)
 
-  return <EventCard event={event} />
+  if (event) {
+    return <EventDetail event={event} />
+  }
+  return <p>no event found</p>
 }
 
-export default EventDetail
+export default EventDetailPage
