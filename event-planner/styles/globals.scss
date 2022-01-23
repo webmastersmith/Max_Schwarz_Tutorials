@@ -107,3 +107,10 @@ h6 {
   --single-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
 
 }
+.container {
+  padding: 2rem 2rem;
+  background-color: #e1f2ee;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}

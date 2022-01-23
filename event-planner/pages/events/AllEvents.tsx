@@ -4,7 +4,11 @@ import { EventCards } from 'components'
 
 const AllEventsPage: NextPage = () => {
   const events = getAllEvents()
-  return <EventCards events={events} />
+  return (
+    <div className="container">
+      <EventCards events={events} />
+    </div>
+  )
 }
 
 export default AllEventsPage
