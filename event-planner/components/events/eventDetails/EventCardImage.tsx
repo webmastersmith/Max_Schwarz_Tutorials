@@ -8,8 +8,10 @@ interface AppProps {
 
 export const EventImage = ({ image, title }: AppProps): JSX.Element => {
   return (
-    <div className={styles.cardImage}>
-      <Image src={'/' + image} alt={title} layout="fill" />
+    <div className={styles.cardImageContainer}>
+      <div className={styles.cardImage}>
+        <Image src={'/' + image} alt={title} layout="fill" />
+      </div>
     </div>
   )
 }

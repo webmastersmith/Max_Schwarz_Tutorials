@@ -16,12 +16,14 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
+
       <EventCard
         image={image}
         location={location}
         title={title}
         date={fixedDate}
       />
+
       <p className={styles.description}>{description}</p>
     </div>
   )

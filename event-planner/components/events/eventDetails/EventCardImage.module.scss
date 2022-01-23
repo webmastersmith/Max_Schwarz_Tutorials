@@ -1,5 +1,14 @@
+.cardImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .cardImage {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 10rem;
+  height: 10rem;
+  margin: 1rem 2rem;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid #fff;
 }

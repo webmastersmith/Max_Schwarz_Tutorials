@@ -1,6 +1,5 @@
 import { AddressIcon, DateIcon } from 'ui'
 import styles from './EventCardText.module.scss'
-import classes from './EventCard.module.scss'
 
 interface AppProps {
   date: string
@@ -10,14 +9,15 @@ interface AppProps {
 export const EventText = ({ date, location }: AppProps): JSX.Element => {
   return (
     <div className={styles.cardText}>
-      <div>
-        <div className={classes.icon}>
+      <div className={styles.date}>
+        <div className={styles.icon}>
           <DateIcon />
         </div>
         {date}
       </div>
+
       <div style={{ whiteSpace: 'pre' }}>
-        <div className={classes.icon}>
+        <div className={styles.icon}>
           <AddressIcon />
         </div>
         {location.replace(', ', '\n')}

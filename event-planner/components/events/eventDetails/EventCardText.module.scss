@@ -1,2 +1,17 @@
 .cardText {
+  color: #b7ded1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 6rem;
+
+  .date {
+    margin-bottom: 1rem;
+  }
+}
+
+.icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #50b098;
 }

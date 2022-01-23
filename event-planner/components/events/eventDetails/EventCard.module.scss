@@ -1,7 +1,9 @@
 .card {
   background-color: var(--lightBrown);
-}
-.icon svg {
-  width: 2rem;
-  height: 2rem;
+  display: flex;
+  border-radius: 5px;
+  margin-top: -5vh;
+  margin-bottom: 2rem;
+  max-width: 800px;
+  min-width: 450px;
 }
