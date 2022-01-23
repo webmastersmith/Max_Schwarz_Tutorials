@@ -100,6 +100,10 @@ h6 {
 :root {
   --bg: #e1f2ee;
   --lightBrown: #3a3a3a;
+  --lightGreen: #fff;
+  --navBG: #202020;
+  --navLogo: #94fdfd;
+  --navLink: #74dacc;
   --single-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
 
 }
