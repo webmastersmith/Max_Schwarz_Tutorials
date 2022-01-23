@@ -100,4 +100,6 @@ h6 {
 :root {
   --bg: #e1f2ee;
   --lightBrown: #3a3a3a;
+  --single-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+
 }
