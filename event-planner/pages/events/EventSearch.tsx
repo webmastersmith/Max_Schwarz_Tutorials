@@ -1,14 +1,31 @@
-import { NextPage } from 'next'
+import React, { useRef } from 'react'
 import { Button } from 'ui'
 import styles from './EventSearch.module.scss'
 
-const EventSearch: NextPage = () => {
+interface AppProps {
+  eventSearchFn: (year: string, month: string) => void
+}
+
+const EventSearch = ({ eventSearchFn }: AppProps): JSX.Element => {
+  const yearRef = useRef<HTMLSelectElement>(null)
+  const monthRef = useRef<HTMLSelectElement>(null)
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+
+    if (yearRef?.current && monthRef?.current) {
+      const year = yearRef.current?.value
+      const month = monthRef.current?.value
+      eventSearchFn(year, month)
+    }
+  }
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.controls}>
         <div className={styles.control}>
           <label htmlFor="year">Year</label>
-          <select name="year" id="year">
+          <select name="year" id="year" ref={yearRef}>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
           </select>
@@ -16,7 +33,7 @@ const EventSearch: NextPage = () => {
 
         <div className={styles.control}>
           <label htmlFor="month">Month</label>
-          <select name="month" id="month">
+          <select name="month" id="month" ref={monthRef}>
             <option value="1">January</option>
             <option value="2">February</option>
             <option value="3">March</option>
@@ -32,7 +49,7 @@ const EventSearch: NextPage = () => {
           </select>
         </div>
       </div>
-      <Button>Submit</Button>
+      <Button type="submit">Submit</Button>
     </form>
   )
 }
