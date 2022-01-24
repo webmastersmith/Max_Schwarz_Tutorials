@@ -29,10 +29,6 @@ const HomePage = (props: { products: AppProps[] }): JSX.Element => {
 export default HomePage
 
 export async function getStaticProps(context: any) {
-  console.log(context)
-
-  console.log('re-generating')
-
   const filePath = path.join(process.cwd(), 'data', 'data.json')
   const file = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
   return {

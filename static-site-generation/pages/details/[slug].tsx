@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { AppProps } from '../index'
@@ -6,8 +5,10 @@ import { AppProps } from '../index'
 const DynamicDetails = (props: AppProps) => {
   const { description, title } = props
 
-  const router = useRouter()
-  const { slug } = router.query //'p2'
+  if (!props?.title) {
+    // console.log('Loading was returned')
+    return <p>Loading...</p>
+  }
 
   return (
     <div>
@@ -21,12 +22,13 @@ export default DynamicDetails
 
 export async function getStaticProps(context: any) {
   const { params } = context //{slug: p2}
-
   const filePath = path.join(process.cwd(), 'data', 'data.json')
-  const file = JSON.parse(readFileSync(filePath, 'utf-8'))
-  const [product] = file.products.filter(
-    ({ id }: AppProps) => id === params.slug
-  )
+  const { products } = JSON.parse(readFileSync(filePath, 'utf-8'))
+
+  const product = products.find(({ id }: AppProps) => id === params.slug)
+  if (!product) {
+    return { notFound: true }
+  }
 
   return {
     props: product,
@@ -34,13 +36,18 @@ export async function getStaticProps(context: any) {
 }
 
 export async function getStaticPaths() {
+  const filePath = path.join(process.cwd(), 'data', 'data.json')
+  const { products } = JSON.parse(readFileSync(filePath, 'utf-8'))
+  const paths = products.map(({ id }: { id: string }) => {
+    return {
+      params: {
+        slug: id,
+      },
+    }
+  })
   // returns object with 'paths' key: Array of objects.
   return {
-    paths: [
-      { params: { slug: 'p1' } },
-      { params: { slug: 'p2' } },
-      { params: { slug: 'p3' } },
-    ],
+    paths,
     fallback: true,
   }
 }
