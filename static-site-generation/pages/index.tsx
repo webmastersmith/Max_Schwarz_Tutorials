@@ -1,13 +1,41 @@
-import type { NextPage } from 'next'
+import fs from 'fs'
+import path from 'path'
+import Link from 'next/link'
 
-const HomePage: NextPage = () => {
+export interface AppProps {
+  id: string
+  title: string
+  description: string
+}
+
+const HomePage = (props: { products: AppProps[] }): JSX.Element => {
+  const { products } = props
+  // console.log(props)
+
   return (
     <ul>
-      <li>Product 1</li>
-      <li>Product 2</li>
-      <li>Product 3</li>
+      {products &&
+        products.map(({ id, title }: AppProps): JSX.Element => {
+          return (
+            <li key={id}>
+              <Link href={`/details/${id}`}>{title}</Link>
+            </li>
+          )
+        })}
     </ul>
   )
 }
 
 export default HomePage
+
+export async function getStaticProps(context: any) {
+  console.log(context)
+
+  console.log('re-generating')
+
+  const filePath = path.join(process.cwd(), 'data', 'data.json')
+  const file = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+  return {
+    props: file,
+  }
+}
