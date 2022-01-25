@@ -12,6 +12,7 @@ const DynamicDetails = (props: AppProps) => {
 
   return (
     <div>
+      <h1>User Profile Page</h1>
       <h1>{title}</h1>
       <p>{description}</p>
     </div>
