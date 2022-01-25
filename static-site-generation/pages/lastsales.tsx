@@ -1,29 +1,44 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import { getSales } from 'utils'
 
 interface TodoType {
-  completed: boolean
-  id: number
-  title: string
-  userId: number
+  username: string
+  volume: number
 }
 
 const LastSalesPage: NextPage = () => {
-  const [state, setState] = useState<TodoType | null>(null)
+  const [sales, setSales] = useState<TodoType[] | any>([])
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then((res) => res.json())
-      .then((data) => setState(data))
-  }, [])
-  console.log(state)
+    getSales().then((snapshot) => {
+      console.log('snapshot', snapshot)
+      const salesArr = []
+      for (const doc of snapshot.docs) {
+        salesArr.push(doc.data())
+      }
+      setSales(salesArr)
+    })
 
-  if (!state) return <p>Loading...</p>
-  const { completed, id, title, userId } = state
+    // fetch('https://jsonplaceholder.typicode.com/todos/1')
+    //   .then((res) => res.json())
+    //   .then((data) => setState(data))
+  }, [])
+
+  if (!sales.length) return <p>Loading...</p>
+  console.log('sales', sales)
+
   return (
     <div>
-      <h1>Todo</h1>
-      <h2>{title}</h2>
-      <p>{`Completed: ${completed.toString()}`}</p>
+      {sales.map((sale: TodoType) => {
+        const { username, volume } = sale
+        return (
+          <div key={username}>
+            <h1>Sales</h1>
+            <h2>{`User: ${username}`}</h2>
+            <p>{`volume: ${volume.toString()}`}</p>
+          </div>
+        )
+      })}
     </div>
   )
 }
