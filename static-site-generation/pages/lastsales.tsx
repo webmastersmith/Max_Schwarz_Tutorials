@@ -1,15 +1,19 @@
-import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { getSales } from 'utils'
 
-interface TodoType {
+interface SalesArrType {
+  salesArr: SaleType[]
+}
+
+interface SaleType {
   username: string
   volume: number
 }
 
-const LastSalesPage: NextPage = () => {
-  const [sales, setSales] = useState<TodoType[] | any>([])
+const LastSalesPage = (props: SalesArrType) => {
+  const [sales, setSales] = useState<SaleType[] | any>(props.salesArr)
   useEffect(() => {
+    // this custom function from Firebase Database.
     getSales().then((snapshot) => {
       console.log('snapshot', snapshot)
       const salesArr = []
@@ -18,18 +22,15 @@ const LastSalesPage: NextPage = () => {
       }
       setSales(salesArr)
     })
-
-    // fetch('https://jsonplaceholder.typicode.com/todos/1')
-    //   .then((res) => res.json())
-    //   .then((data) => setState(data))
   }, [])
 
   if (!sales.length) return <p>Loading...</p>
+
   console.log('sales', sales)
 
   return (
     <div>
-      {sales.map((sale: TodoType) => {
+      {sales.map((sale: SaleType) => {
         const { username, volume } = sale
         return (
           <div key={username}>
@@ -44,3 +45,18 @@ const LastSalesPage: NextPage = () => {
 }
 
 export default LastSalesPage
+
+export async function getStaticProps() {
+  const snapshot = await getSales()
+
+  const salesArr = []
+  for (const doc of snapshot.docs) {
+    salesArr.push(doc.data())
+  }
+
+  return {
+    props: {
+      salesArr,
+    },
+  }
+}
