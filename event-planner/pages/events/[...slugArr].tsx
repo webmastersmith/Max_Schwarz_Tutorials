@@ -5,10 +5,14 @@ import { Button } from 'ui'
 import { ParsedUrlQuery } from 'querystring'
 
 interface AppProps {
-  events: EventsType[]
+  events?: EventsType[]
+  hasError?: boolean
 }
-const FilteredEvents: NextPage<AppProps> = ({ events }) => {
-  if (!events.length) {
+const FilteredEvents: NextPage<AppProps> = ({
+  events = [],
+  hasError = false,
+}) => {
+  if (hasError || !events.length) {
     return (
       <div className="container">
         <Button href="/events/AllEvents">Show All Events</Button>
@@ -29,13 +33,12 @@ export default FilteredEvents
 interface PropsType extends ParsedUrlQuery {
   slugArr: string[]
 }
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slugArr } = context.params as PropsType
   const [year, month] = slugArr
 
   const numYear = +year
   const numMonth = +month
-  let events: EventsType[] = []
 
   if (
     isNaN(numYear) ||
@@ -47,12 +50,15 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   ) {
     return {
       props: {
-        events,
+        hasError: true,
       },
     }
   }
 
-  events = await getFilteredFireStoreEvents(numYear, numMonth)
+  const events: EventsType[] = await getFilteredFireStoreEvents(
+    numYear,
+    numMonth
+  )
 
   return {
     props: {
