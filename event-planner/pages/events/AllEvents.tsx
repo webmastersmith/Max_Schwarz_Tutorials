@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { getAllFireStoreEvents, EventsType, getAllEvents } from 'data'
+import { getAllFireStoreEvents, EventsType } from 'data'
 import { EventCards } from 'components'
 import EventSearch from './EventSearch'
 
