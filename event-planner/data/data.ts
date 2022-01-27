@@ -84,10 +84,10 @@ export async function getAllFireStoreEvents(): Promise<EventsType[]> {
   return eventsArr
 }
 // getAllFireStoreEvents()
-export function getFilteredFireStoreEvents(
+export async function getFilteredFireStoreEvents(
   year: number,
   month: number
-): EventsType[] {
+): Promise<EventsType[]> {
   let filteredEvents = DUMMY_EVENTS.filter((event) => {
     const eventDate = new Date(event.date)
     return (
