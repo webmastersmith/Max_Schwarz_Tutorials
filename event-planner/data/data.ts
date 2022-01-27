@@ -54,6 +54,7 @@ export async function getFireStoreFeaturedEvents(): Promise<EventsType[]> {
   // console.log('featured events', eventsArr)
   return eventsArr
 }
+//getFireStoreFeaturedEvents()
 export async function getFireStoreEventById(id: string): Promise<EventsType> {
   let event: EventsType = {
     id: '',
@@ -73,7 +74,6 @@ export async function getFireStoreEventById(id: string): Promise<EventsType> {
   return event
 }
 // getFireStoreEventById('e2')
-
 export async function getAllFireStoreEvents(): Promise<EventsType[]> {
   const eventsArr: EventsType[] = []
   const eventsSnapshot = await getDocs(collection(db, 'events'))
@@ -84,6 +84,20 @@ export async function getAllFireStoreEvents(): Promise<EventsType[]> {
   return eventsArr
 }
 // getAllFireStoreEvents()
+export function getFilteredFireStoreEvents(
+  year: number,
+  month: number
+): EventsType[] {
+  let filteredEvents = DUMMY_EVENTS.filter((event) => {
+    const eventDate = new Date(event.date)
+    return (
+      eventDate.getFullYear() === year && eventDate.getMonth() === month - 1
+    )
+  })
+
+  return filteredEvents
+}
+// getFilteredFireStoreEvents(year)
 
 export function getFeaturedEvents(): EventsType[] {
   return DUMMY_EVENTS.filter((event) => event.isFeatured)
