@@ -1,3 +1,6 @@
+import { db } from 'utils'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+
 export interface EventsType {
   id: string
   title: string
@@ -40,6 +43,29 @@ const DUMMY_EVENTS: EventsType[] = [
     isFeatured: true,
   },
 ]
+
+export async function getFireStoreFeaturedEvents(): Promise<EventsType[]> {
+  const eventsArr: EventsType[] = []
+  const q = query(collection(db, 'events'), where('isFeatured', '==', true))
+  const eventsSnapshot = await getDocs(q)
+  eventsSnapshot.forEach((doc: any) => {
+    eventsArr.push(doc.data())
+  })
+  // console.log('featured events', eventsArr)
+  return eventsArr
+}
+// getFireStoreFeaturedEvents()
+
+export async function getAllFireStoreEvents(): Promise<EventsType[]> {
+  const eventsArr: EventsType[] = []
+  const eventsSnapshot = await getDocs(collection(db, 'events'))
+  eventsSnapshot.forEach((doc: any) => {
+    eventsArr.push(doc.data())
+  })
+  // console.log('all events', eventsArr)
+  return eventsArr
+}
+// getAllFireStoreEvents()
 
 export function getFeaturedEvents(): EventsType[] {
   return DUMMY_EVENTS.filter((event) => event.isFeatured)

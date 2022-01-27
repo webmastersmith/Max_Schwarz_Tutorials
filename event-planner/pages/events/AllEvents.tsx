@@ -1,12 +1,14 @@
-import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { getAllEvents } from 'data'
+import { getAllFireStoreEvents, EventsType, getAllEvents } from 'data'
 import { EventCards } from 'components'
 import EventSearch from './EventSearch'
 
-const AllEventsPage: NextPage = () => {
+interface AppProps {
+  events: EventsType[]
+}
+
+const AllEventsPage = ({ events }: AppProps) => {
   const router = useRouter()
-  const events = getAllEvents()
 
   const eventSearchFn = (year: string, month: string): void => {
     router.push(`/events/${year}/${month}`)
@@ -20,3 +22,12 @@ const AllEventsPage: NextPage = () => {
 }
 
 export default AllEventsPage
+
+export async function getStaticProps() {
+  const events = await getAllFireStoreEvents()
+  return {
+    props: {
+      events,
+    },
+  }
+}

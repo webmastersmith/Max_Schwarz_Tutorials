@@ -1,11 +1,13 @@
 import type { NextPage } from 'next'
-import { getFeaturedEvents } from 'data'
+import { getFireStoreFeaturedEvents, EventsType } from 'data'
 import { EventCards } from 'components'
 
-const HomePage: NextPage = () => {
-  // featured events
-  const events = getFeaturedEvents()
+interface AppProps {
+  events: EventsType[]
+}
 
+const HomePage = ({ events }: AppProps) => {
+  // featured events
   return (
     <div className="container">
       <EventCards events={events} />
@@ -14,3 +16,12 @@ const HomePage: NextPage = () => {
 }
 
 export default HomePage
+
+export async function getStaticProps() {
+  const events = await getFireStoreFeaturedEvents()
+  return {
+    props: {
+      events,
+    },
+  }
+}
