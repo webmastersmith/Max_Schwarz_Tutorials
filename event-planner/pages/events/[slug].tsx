@@ -1,14 +1,8 @@
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import { getEventById, EventsType } from 'data'
+import { EventsType, getFireStoreEventById } from 'data'
 import { EventDetail } from 'components'
+import { useState } from 'react'
 
-const EventDetailPage: NextPage = () => {
-  const router = useRouter()
-  const { slug } = router.query
-
-  const event = getEventById(slug as string)
-
+const EventDetailPage = ({ event }: any) => {
   if (event) {
     return <EventDetail event={event} />
   }
@@ -16,3 +10,14 @@ const EventDetailPage: NextPage = () => {
 }
 
 export default EventDetailPage
+
+export async function getServerSideProps(context: any) {
+  const { params } = context //{slug: 'e1'}
+  const event = await getFireStoreEventById(params.slug)
+
+  return {
+    props: {
+      event,
+    },
+  }
+}

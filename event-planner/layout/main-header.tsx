@@ -12,7 +12,7 @@ export const MainHeader = (): JSX.Element => {
         <Link href="/">Next Text</Link>
       </div>
       <nav className={styles.navigation}>
-        <ul>
+        <ul role="list">
           <li>
             <Link href="/events/AllEvents">Browse All Events</Link>
           </li>

@@ -54,7 +54,25 @@ export async function getFireStoreFeaturedEvents(): Promise<EventsType[]> {
   // console.log('featured events', eventsArr)
   return eventsArr
 }
-// getFireStoreFeaturedEvents()
+export async function getFireStoreEventById(id: string): Promise<EventsType> {
+  let event: EventsType = {
+    id: '',
+    title: '',
+    description: '',
+    location: '',
+    date: '',
+    image: '',
+    isFeatured: false,
+  }
+  const q = query(collection(db, 'events'), where('id', '==', id))
+  const eventsSnapshot = await getDocs(q)
+  eventsSnapshot.forEach((doc: any) => {
+    event = doc.data()
+  })
+  // console.log('event id', event)
+  return event
+}
+// getFireStoreEventById('e2')
 
 export async function getAllFireStoreEvents(): Promise<EventsType[]> {
   const eventsArr: EventsType[] = []
