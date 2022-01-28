@@ -10,7 +10,13 @@ export const EventImage = ({ image, title }: AppProps): JSX.Element => {
   return (
     <div className={styles.cardImageContainer}>
       <div className={styles.cardImage}>
-        <Image src={'/' + image} alt={title} layout="fill" />
+        <Image
+          src={'/' + image}
+          alt={title}
+          width={160}
+          height={160}
+          objectFit="cover"
+        />
       </div>
     </div>
   )

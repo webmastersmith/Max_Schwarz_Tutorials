@@ -19,7 +19,13 @@ export const EventCard = ({ event }: AppProps): JSX.Element => {
   return (
     <li key={id} className={styles.eventItem}>
       <div className={styles.eventImage}>
-        <Image src={'/' + image} alt={title} layout="fill" />
+        <Image
+          src={'/' + image}
+          alt={title}
+          width={240}
+          height={240}
+          objectFit="cover"
+        />
       </div>
 
       <div className={styles.eventText}>
