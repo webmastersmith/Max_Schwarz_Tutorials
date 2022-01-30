@@ -17,7 +17,7 @@ export default function handler(
     const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
     data.push(JSON.parse(req.body))
     fs.writeFileSync(filePath, JSON.stringify(data))
-    res.status(201).json({ name: 'Great! Thanks' })
+    res.status(201).json({ name: 'Great! Thank you.' })
   } else {
     const filePath = path.join(process.cwd(), 'data', 'db.json')
     const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
