@@ -7,6 +7,7 @@ interface AppProps {
   href?: string
   type?: 'submit' | 'button'
   classes?: any
+  click?: any
 }
 
 // Link
@@ -19,8 +20,9 @@ interface AppProps {
 export const Button = ({
   children,
   href,
-  type = 'submit',
+  type = 'button',
   classes = '',
+  click = () => {},
 }: AppProps): JSX.Element => {
   if (href) {
     return (
@@ -29,6 +31,18 @@ export const Button = ({
       </Link>
     )
   }
+  if (type === 'button') {
+    return (
+      <button
+        className={`${styles.btn} ${classes}`}
+        type={type}
+        onClick={click}
+      >
+        {children}
+      </button>
+    )
+  }
+  //submit button
   return (
     <button className={`${styles.btn} ${classes}`} type={type}>
       {children}

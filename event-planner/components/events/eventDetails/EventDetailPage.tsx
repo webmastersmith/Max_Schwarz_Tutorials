@@ -1,14 +1,19 @@
 import { EventsType } from 'data'
-import styles from './EventDetail.module.scss'
+import styles from './EventDetailPage.module.scss'
 import { EventCard } from './EventCard'
+import { EventDetailCommentsForm } from './EventForm'
 import Head from 'next/head'
 import { Button } from 'ui'
+import { useState } from 'react'
 
 interface AppProps {
   event: EventsType
 }
 
 export const EventDetail = ({ event }: AppProps): JSX.Element => {
+  const [showForm, setShowForm] = useState<boolean>(true)
+  console.log(showForm)
+
   const { title, date, description, image, location } = event
   const fixedDate = new Date(date).toLocaleString('en-US', {
     year: 'numeric',
@@ -31,7 +36,12 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
       />
 
       <p className={styles.description}>{description}</p>
-      <Button type="button" classes={styles.button}>
+
+      <Button
+        type="button"
+        classes={styles.button}
+        click={() => setShowForm((x) => !x)}
+      >
         Show Comments
       </Button>
     </div>

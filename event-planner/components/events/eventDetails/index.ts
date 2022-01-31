@@ -1,4 +1,3 @@
-export * from './EventDetail'
-export * from './EventCardImage'
-export * from './EventCardText'
-export * from './EventDetailCommentsForm'
+export * from './EventDetailPage'
+export * from './EventCard'
+export * from './EventForm'

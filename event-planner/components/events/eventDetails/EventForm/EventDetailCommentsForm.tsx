@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import styles from './EventDetailCommentsForm.module.scss'
 
 interface AppProps {
   data: string
@@ -7,5 +8,5 @@ interface AppProps {
 export const EventDetailCommentsForm: NextPage<AppProps> = ({
   data,
 }): JSX.Element => {
-  return <div>EventDetailCommentsForm</div>
+  return <form className={styles.form}>EventDetailCommentsForm</form>
 }
