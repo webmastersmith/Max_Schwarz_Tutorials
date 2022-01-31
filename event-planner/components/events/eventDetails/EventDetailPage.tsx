@@ -12,21 +12,20 @@ interface AppProps {
 
 export const EventDetail = ({ event }: AppProps): JSX.Element => {
   const [showForm, setShowForm] = useState<boolean>(true)
-  console.log(showForm)
 
-  const { title, date, description, image, location } = event
+  const { title, date, description, image, location, id } = event
   const fixedDate = new Date(date).toLocaleString('en-US', {
     year: 'numeric',
     day: '2-digit',
     month: 'long',
   })
   return (
-    <div className={styles.container}>
+    <div className={styles.pageContainer}>
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
       </Head>
-      <h1 className={styles.title}>{title}</h1>
+      <h1 className={styles.h1}>{title}</h1>
 
       <EventCard
         image={image}
@@ -42,8 +41,10 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
         classes={styles.button}
         click={() => setShowForm((x) => !x)}
       >
-        Show Comments
+        {`${!showForm ? 'Show' : 'Hide'} Comments`}
       </Button>
+
+      {showForm && <EventDetailCommentsForm />}
     </div>
   )
 }
