@@ -1,0 +1,28 @@
+.h1 {
+  font-weight: bold;
+}
+.inputContainerDiv {
+  --height: 2rem;
+  position: relative;
+  width: 50%;
+  margin-bottom: 4rem;
+  .input {
+    border-radius: var(--radius);
+    width: 100%;
+    border: none;
+    height: var(--height);
+    &::placeholder {
+      padding-left: 0.5rem;
+    }
+  }
+  .button {
+    position: absolute;
+    right: 0;
+    padding: 0 0.25rem;
+    top: 0;
+    height: var(--height);
+    // border-top: 1px solid var(--lightBrown);
+    // border-right: 1px solid var(--lightBrown);
+    // border-bottom: 1px solid var(--lightBrown);
+  }
+}

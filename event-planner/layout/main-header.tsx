@@ -9,7 +9,7 @@ export const MainHeader = (): JSX.Element => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <Link href="/">Next Text</Link>
+        <Link href="/">NextEvents</Link>
       </div>
       <nav className={styles.navigation}>
         <ul role="list">

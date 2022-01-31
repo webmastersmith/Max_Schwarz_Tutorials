@@ -5,23 +5,33 @@ import styles from './button.module.scss'
 interface AppProps {
   children: React.ReactNode
   href?: string
-  type?: 'submit'
+  type?: 'submit' | 'button'
+  classes?: any
 }
 
-export const Button = ({ children, href, type }: AppProps): JSX.Element => {
+// Link
+// <Button href={`/events/${id}`}><span className={styles.buttonIcon}>
+//   Explore Event<span><ArrowRightIcon /></span>
+// </span></Button>
+
+// regular button
+// <Button type="button" classes={styles.button}>Register</Button>
+export const Button = ({
+  children,
+  href,
+  type = 'submit',
+  classes = '',
+}: AppProps): JSX.Element => {
   if (href) {
     return (
       <Link href={href}>
-        <a className={styles.btn}>{children}</a>
+        <a className={`${styles.btn} ${classes}`}>{children}</a>
       </Link>
     )
   }
-  if (type) {
-    return (
-      <button className={styles.btn} type={type}>
-        {children}
-      </button>
-    )
-  }
-  return <button className={styles.btn}>{children}</button>
+  return (
+    <button className={`${styles.btn} ${classes}`} type={type}>
+      {children}
+    </button>
+  )
 }

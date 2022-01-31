@@ -2,6 +2,7 @@ import { EventsType } from 'data'
 import styles from './EventDetail.module.scss'
 import { EventCard } from './EventCard'
 import Head from 'next/head'
+import { Button } from 'ui'
 
 interface AppProps {
   event: EventsType
@@ -30,6 +31,9 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
       />
 
       <p className={styles.description}>{description}</p>
+      <Button type="button" classes={styles.button}>
+        Show Comments
+      </Button>
     </div>
   )
 }

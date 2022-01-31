@@ -6,6 +6,7 @@ import {
 import { EventDetail } from 'components'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
+import { Button } from 'ui'
 
 interface AppProps {
   event: EventsType
@@ -24,6 +25,7 @@ const EventDetailPage: NextPage<AppProps> = ({ event }): JSX.Element => {
 
 export default EventDetailPage
 
+// next server-side code.
 interface PropsType extends ParsedUrlQuery {
   slug: string
 }
