@@ -1,7 +1,7 @@
 import { EventsType } from 'data'
 import styles from './EventDetailPage.module.scss'
 import { EventCard } from './EventCard'
-import { EventDetailCommentsForm } from './EventForm'
+import { EventDetailComments } from './EventForm'
 import Head from 'next/head'
 import { Button } from 'ui'
 import { useState } from 'react'
@@ -44,7 +44,7 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
         {`${!showForm ? 'Show' : 'Hide'} Comments`}
       </Button>
 
-      {showForm && <EventDetailCommentsForm />}
+      {showForm && <EventDetailComments id={id} />}
     </div>
   )
 }

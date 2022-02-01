@@ -1,0 +1,6 @@
+{
+  "e1comments": {
+    "test@test.com": [{ "name": "test" }, { "comment": "This is a comment" }],
+    "test2@test.com": [{ "name": "test2" }, { "comment": "This is a comment" }]
+  }
+}

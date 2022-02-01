@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import {
+  getFirestore,
+  CollectionReference,
+  collection,
+  DocumentData,
+} from 'firebase/firestore'
 
 const firebaseConfig = initializeApp({
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -9,3 +14,8 @@ const firebaseConfig = initializeApp({
 
 const db = getFirestore()
 export { db }
+
+// This is just a helper to add the type to the db responses
+export const createCollection = <T = DocumentData>(collectionName: string) => {
+  return collection(db, collectionName) as CollectionReference<T>
+} // Import all your model types

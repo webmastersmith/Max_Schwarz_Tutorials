@@ -1,21 +1,36 @@
+import { useRef, Dispatch, SetStateAction } from 'react'
 import type { NextPage } from 'next'
-import { useRef } from 'react'
+import { collection } from 'firebase/firestore'
+import { db } from 'utils'
 import { Button } from 'ui'
+import { Comments } from './EventDetailComments'
 import styles from './EventDetailCommentsForm.module.scss'
-import { FormEventHandler } from 'react'
 
-// interface AppProps {
-//   id: string
-// }
+interface AppProps {
+  id: string
+  setComments: Dispatch<SetStateAction<Comments[]>>
+  addDoc: any
+}
 
-export const EventDetailCommentsForm: NextPage = (): JSX.Element => {
+export const EventDetailCommentsForm: NextPage<AppProps> = ({
+  id,
+  setComments,
+  addDoc,
+}): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
 
-  const handleSubmit: React.FormEventHandler = (event): void => {
+  const handleSubmit: React.FormEventHandler = async (event): Promise<void> => {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
-    const dataObject = Object.fromEntries(formData)
-    console.log('dataObject', dataObject)
+    const dataObject: unknown = Object.fromEntries(formData)
+
+    const commentObject = {
+      ...(dataObject as Comments),
+      date: Date.now(),
+      id: crypto.randomUUID?.() ?? `${Date.now()}`,
+    }
+    addDoc(collection(db, `${id}comments`), commentObject)
+    setComments((c: Comments[]) => [...c, commentObject])
     formRef.current?.reset()
   }
 
@@ -33,8 +48,8 @@ export const EventDetailCommentsForm: NextPage = (): JSX.Element => {
       </div>
 
       <div className={styles.commentsDiv}>
-        <label htmlFor="comments">Your Comments</label>
-        <textarea name="comments" id="comments" rows={5} required />
+        <label htmlFor="comment">Your Comments</label>
+        <textarea name="comment" id="comment" rows={5} required />
       </div>
       <Button classes={styles.button} type="submit">
         Submit
