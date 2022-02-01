@@ -1,8 +1,15 @@
 .comment {
   display: flex;
   justify-content: space-between;
-
   border-bottom: 1px solid #000;
   max-width: 800px;
   min-width: 450px;
+  margin-bottom: 1rem;
+  span:first-child {
+    padding: 1rem 0;
+  }
+  span:last-child {
+    align-self: flex-end;
+    font-style: italic;
+  }
 }

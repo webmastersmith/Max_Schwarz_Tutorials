@@ -1,4 +1,4 @@
-import { useRef, Dispatch, SetStateAction } from 'react'
+import { useRef, Dispatch, SetStateAction, memo, useCallback } from 'react'
 import type { NextPage } from 'next'
 import { collection } from 'firebase/firestore'
 import { db } from 'utils'
@@ -12,27 +12,30 @@ interface AppProps {
   addDoc: any
 }
 
-export const EventDetailCommentsForm: NextPage<AppProps> = ({
+const CommentsForm: NextPage<AppProps> = ({
   id,
   setComments,
   addDoc,
 }): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
 
-  const handleSubmit: React.FormEventHandler = async (event): Promise<void> => {
-    event.preventDefault()
-    const formData = new FormData(event.target as HTMLFormElement)
-    const dataObject: unknown = Object.fromEntries(formData)
+  const handleSubmit: React.FormEventHandler = useCallback(
+    (event): void => {
+      event.preventDefault()
+      const formData = new FormData(event.target as HTMLFormElement)
+      const dataObject: unknown = Object.fromEntries(formData)
 
-    const commentObject = {
-      ...(dataObject as Comments),
-      date: Date.now(),
-      id: crypto.randomUUID?.() ?? `${Date.now()}`,
-    }
-    addDoc(collection(db, `${id}comments`), commentObject)
-    setComments((c: Comments[]) => [...c, commentObject])
-    formRef.current?.reset()
-  }
+      const commentObject = {
+        ...(dataObject as Comments),
+        date: Date.now(),
+        id: crypto.randomUUID?.() ?? `${Date.now()}`,
+      }
+      addDoc(collection(db, `${id}comments`), commentObject)
+      setComments((c: Comments[]) => [...c, commentObject])
+      formRef.current?.reset()
+    },
+    [id]
+  )
 
   return (
     <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
@@ -57,3 +60,4 @@ export const EventDetailCommentsForm: NextPage<AppProps> = ({
     </form>
   )
 }
+export const EventDetailCommentsForm = memo(CommentsForm)

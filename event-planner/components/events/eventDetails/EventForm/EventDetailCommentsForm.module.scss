@@ -1,4 +1,6 @@
 .form {
+  display: flex;
+  flex-direction: column;
   background-color: var(--buttonBg);
   border-radius: var(--radius);
   margin: 3rem 0;
@@ -45,7 +47,7 @@
   background-color: #fff;
   color: var(--buttonBg);
   margin-top: 1rem;
-  float: right;
+  margin-left: auto;
   &:active,
   &:hover {
     background-color: var(--bg);

@@ -11,7 +11,7 @@ interface AppProps {
 }
 
 export const EventDetail = ({ event }: AppProps): JSX.Element => {
-  const [showForm, setShowForm] = useState<boolean>(true)
+  const [showForm, setShowForm] = useState<boolean>(false)
 
   const { title, date, description, image, location, id } = event
   const fixedDate = new Date(date).toLocaleString('en-US', {
@@ -44,7 +44,7 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
         {`${!showForm ? 'Show' : 'Hide'} Comments`}
       </Button>
 
-      {showForm && <EventDetailComments id={id} />}
+      <EventDetailComments id={id} showForm={showForm} />
     </div>
   )
 }
