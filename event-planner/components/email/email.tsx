@@ -18,15 +18,23 @@ export const RegisterEmail: NextPage = (): JSX.Element => {
     console.log(emailRef.current?.value)
 
     const email = emailRef.current?.value
-    const docRef = await addDoc(collection(db, 'emails'), {
-      email,
-      date: Timestamp.now(),
+    const response = await fetch('http://localhost:3000/api/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
     })
+    const data = await response.json()
+    console.log(data)
 
-    console.log(docRef)
-    console.log(docRef?.id)
+    // const docRef = await addDoc(collection(db, 'emails'), {
+    //   email,
+    //   date: new Date().toISOString(),
+    // })
+    // console.log(docRef?.id)
 
-    // reset form
+    // reset form -could be null, so if check needed.
     if (emailRef.current) {
       emailRef.current.value = ''
     }
