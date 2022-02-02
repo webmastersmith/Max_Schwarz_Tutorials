@@ -1,9 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { getFireStoreFeaturedEvents, EventsType } from 'data'
-import { EventCards } from 'components'
-import { Button } from 'ui'
-import styles from 'styles/homePage.module.scss'
+import { EventCards, RegisterEmail } from 'components'
 
 interface AppProps {
   events: EventsType[]
@@ -21,13 +19,8 @@ const HomePage: NextPage<AppProps> = ({ events }) => {
           content="Find a lot of great events that allow you to evolve"
         />
       </Head>
-      <h1 className={styles.h1}>Sign up to stay updated!</h1>
-      <div className={styles.inputContainerDiv}>
-        <input type="text" placeholder="Your Email" className={styles.input} />
-        <Button type="button" classes={styles.button}>
-          Register
-        </Button>
-      </div>
+
+      <RegisterEmail />
 
       <EventCards events={events} />
     </div>
