@@ -1,7 +1,14 @@
 import { db, createCollection } from 'utils'
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  limit,
+} from 'firebase/firestore'
 import type { NextApiResponse } from 'next'
-import { Data } from 'pages/api/[slug]'
+import { Data } from 'pages/api/email'
 
 interface EmailType {
   date: Date
@@ -13,16 +20,15 @@ export async function sendEmail(
   res: NextApiResponse<Data>
 ): Promise<void> {
   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-  // valid email
-  if (validEmail.test(email)) {
-    console.log('valid email')
 
-    //get all emails
+  // validate email
+  if (validEmail.test(email)) {
+    //query all emails
     const emailCol = createCollection<EmailType>('emails')
     //make sure unique, will return email if exist.
-    const q = query(emailCol, where('email', '==', email))
+    const q = query(emailCol, where('email', '==', email), limit(1))
     const querySnapshot = await getDocs(q)
-    // no match found, email is unique, querySnapshot is empty.
+    // no match found, email is unique if querySnapshot is empty.
     if (querySnapshot.empty) {
       // send valid unique email.
       const docRef = await addDoc(collection(db, 'emails'), {
@@ -32,6 +38,7 @@ export async function sendEmail(
       console.log(docRef?.id)
       res.status(200).json({ msg: 'Thank you for your email' })
     } else {
+      // email already exist in db.
       res.status(200).json({ msg: 'Thank you for your existing email' })
     }
 

@@ -8,31 +8,38 @@ import styles from './EventDetailCommentsForm.module.scss'
 
 interface AppProps {
   id: string
-  setComments: Dispatch<SetStateAction<Comments[]>>
-  addDoc: any
+  // setComments: Dispatch<SetStateAction<Comments[]>>
 }
 
-const CommentsForm: NextPage<AppProps> = ({
-  id,
-  setComments,
-  addDoc,
-}): JSX.Element => {
+const CommentsForm: NextPage<AppProps> = ({ id }): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
 
   const handleSubmit: React.FormEventHandler = useCallback(
-    (event): void => {
+    async (event): Promise<void> => {
       event.preventDefault()
       const formData = new FormData(event.target as HTMLFormElement)
       const dataObject: unknown = Object.fromEntries(formData)
 
       const commentObject = {
         ...(dataObject as Comments),
-        date: Date.now(),
+        date: new Date().toISOString(),
         id: crypto.randomUUID?.() ?? `${Date.now()}`,
+        pageId: id,
       }
-      addDoc(collection(db, `${id}comments`), commentObject)
-      setComments((c: Comments[]) => [...c, commentObject])
-      formRef.current?.reset()
+
+      const response = await fetch(`http://localhost:3000/api/comments/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(commentObject),
+      })
+      const data = await response.json()
+      console.log(data)
+
+      // addDoc(collection(db, `${id}comments`), commentObject)
+      // setComments((c: Comments[]) => [...c, commentObject])
+      // formRef.current?.reset()
     },
     [id]
   )

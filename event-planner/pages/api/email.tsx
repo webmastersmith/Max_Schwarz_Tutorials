@@ -10,21 +10,9 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const {
-    query: { slug },
-  } = req
-  console.log(req.query)
-  console.log(slug)
-
+  // is POST request
   if (req.method === 'POST') {
-    console.log(req.body)
-
-    // email
-    if (slug === 'email') {
-      sendEmail(req.body?.email, res)
-    }
-
-    // res.status(200).json({ msg: 'post request' })
+    sendEmail(req.body?.email, res)
   } else {
     // must be a 'GET' req.
     res.status(200).json({ msg: 'get request' })

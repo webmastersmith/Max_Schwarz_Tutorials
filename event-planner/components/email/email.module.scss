@@ -1,3 +1,6 @@
+.emailWrapperDiv {
+  height: 152px;
+}
 .h1 {
   font-weight: bold;
   margin-bottom: 1rem;
@@ -22,8 +25,5 @@
     padding: 0 0.25rem;
     top: 0;
     height: var(--height);
-    // border-top: 1px solid var(--lightBrown);
-    // border-right: 1px solid var(--lightBrown);
-    // border-bottom: 1px solid var(--lightBrown);
   }
 }

@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
-import { useState, useEffect, useCallback, memo } from 'react'
+import { useState } from 'react'
 import { EventDetailCommentsForm } from './EventDetailCommentsForm'
-import { createCollection } from 'utils'
-import { getDocs, addDoc } from 'firebase/firestore'
+// import { createCollection } from 'utils'
+import { addDoc } from 'firebase/firestore'
 import styles from './EventDetailComments.module.scss'
 
 interface AppProps {
@@ -13,32 +13,21 @@ export interface Comments {
   email: string
   name: string
   comment: string
-  date: number
+  date: string
   id: string
+  pageId: string
 }
 
-const AllComments: NextPage<AppProps> = ({ id, showForm }): JSX.Element => {
+export const EventDetailComments: NextPage<AppProps> = ({
+  id,
+  showForm,
+}): JSX.Element => {
   const [comments, setComments] = useState<Comments[]>([])
-  const commentsCol = createCollection<Comments>(`${id}comments`)
-  const getComments = useCallback(async (id: string) => {
-    const querySnapshot = await getDocs(commentsCol)
-    querySnapshot.forEach((doc) => {
-      const obj = doc.data()
-      console.log('obj', obj)
-      if (!comments.some((comment) => obj?.id === comment.id)) {
-        setComments((c) => [...c, obj])
-      }
-    })
-  }, [])
 
-  useEffect(() => {
-    if (!comments.length) {
-      console.log('comments', comments)
-      getComments(id)
-    }
-  }, [])
+  const printComments = (comments: Comments[]): JSX.Element[] | JSX.Element => {
+    if (!comments.length)
+      return <p key={'noComment'}>Be the first to add a comment!</p>
 
-  const printComments = useCallback((comments: Comments[]): JSX.Element[] => {
     return comments.map(({ id, email, name, date, comment }: Comments) => {
       return (
         <div key={id}>
@@ -49,18 +38,33 @@ const AllComments: NextPage<AppProps> = ({ id, showForm }): JSX.Element => {
         </div>
       )
     })
-  }, [])
+  }
 
   return (
     <div className={showForm ? 'none' : 'hide'}>
-      <EventDetailCommentsForm
-        id={id}
-        setComments={setComments}
-        addDoc={addDoc}
-      />
-      {!!comments.length && printComments(comments)}
+      <EventDetailCommentsForm id={id} />
+      {printComments(comments)}
     </div>
   )
 }
 
-export const EventDetailComments = memo(AllComments)
+// const commentsCol = createCollection<Comments>(`${id}comments`)
+
+// const getComments = useCallback(async (id: string) => {
+// const querySnapshot = await getDocs(commentsCol)
+// querySnapshot.forEach((doc) => {
+
+//   const obj = doc.data()
+//   console.log('obj', obj)
+//   if (!comments.some((comment) => obj?.id === comment.id)) {
+//     setComments((c) => [...c, obj])
+//   }
+// })
+// }, [])
+
+// useEffect(() => {
+//   if (!comments.length) {
+//     console.log('comments', comments)
+//     getComments(id)
+//   }
+// }, [])
