@@ -26,7 +26,7 @@ export const RegisterEmail: NextPage = (): JSX.Element => {
       body: JSON.stringify({ email }),
     })
     const data = await response.json()
-    console.log(data)
+    console.log(data.msg)
 
     // const docRef = await addDoc(collection(db, 'emails'), {
     //   email,
