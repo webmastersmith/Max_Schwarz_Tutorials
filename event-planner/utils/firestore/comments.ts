@@ -46,5 +46,5 @@ export const getPageComments = async (pageId: string): Promise<Comments[]> => {
 export const postComment = async (comment: Comments): Promise<void> => {
   const commentsCol = createCollection<Comments>(`comments`)
   const commentRef = await addDoc(commentsCol, comment)
-  console.log(commentRef.id)
+  console.log('comment was posted successfully', commentRef.id)
 }

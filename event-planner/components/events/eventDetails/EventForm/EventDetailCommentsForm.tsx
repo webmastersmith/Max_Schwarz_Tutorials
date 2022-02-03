@@ -37,7 +37,7 @@ const CommentsForm: NextPage<AppProps> = ({
         body: JSON.stringify(commentObject),
       })
       const data = await response.json()
-      console.log(data)
+      console.log('form data', data)
       formRef.current?.reset()
     },
     []
