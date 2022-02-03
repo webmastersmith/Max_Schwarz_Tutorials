@@ -24,9 +24,7 @@ export default async function handler(
     if (slug === 'comments') {
       // get keys to check for valid pageId.
       const eventKeys = await getAllEventKeys()
-      console.log(eventKeys)
       if (eventKeys.includes(pageId)) {
-        console.log('im a comment post')
         // let's post a comment!
         postComment(req.body)
         res.status(200).json({ msg: 'comments post success!' })
