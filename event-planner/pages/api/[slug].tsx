@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { sendEmail } from 'utils'
 
-type Data = {
+export type Data = {
   // this is the response type
   msg: string
 }
@@ -17,14 +18,10 @@ export default function handler(
 
   if (req.method === 'POST') {
     console.log(req.body)
+
+    // email
     if (slug === 'email') {
-      const validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-      if (validRegex.test(req.body?.email)) {
-        console.log('success!')
-        res.status(200).json({ msg: 'Thank you for your email' })
-      } else {
-        res.status(200).json({ msg: 'Please check email and try again.' })
-      }
+      sendEmail(req.body?.email, res)
     }
 
     // res.status(200).json({ msg: 'post request' })
