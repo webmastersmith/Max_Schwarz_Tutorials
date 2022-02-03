@@ -5,12 +5,14 @@ import { EventDetailComments } from './EventForm'
 import Head from 'next/head'
 import { Button } from 'ui'
 import { useState } from 'react'
+import { Comments } from 'components'
 
 interface AppProps {
   event: EventsType
+  comments: Comments[]
 }
 
-export const EventDetail = ({ event }: AppProps): JSX.Element => {
+export const EventDetail = ({ event, comments }: AppProps): JSX.Element => {
   const [showForm, setShowForm] = useState<boolean>(false)
 
   const { title, date, description, image, location, id } = event
@@ -44,7 +46,7 @@ export const EventDetail = ({ event }: AppProps): JSX.Element => {
         {`${!showForm ? 'Show' : 'Hide'} Comments`}
       </Button>
 
-      <EventDetailComments id={id} showForm={showForm} />
+      <EventDetailComments id={id} showForm={showForm} comments={comments} />
     </div>
   )
 }

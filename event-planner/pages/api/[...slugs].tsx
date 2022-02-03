@@ -1,17 +1,18 @@
-import { get } from 'https'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getAllEventKeys, postComment } from 'utils'
+import { getAllEventKeys, postComment, getPageComments } from 'utils'
+import { Comments } from 'components'
 
-export type Data = {
+export type ResData = {
   // this is the response type
   msg: string
   slug?: string
   pageId?: string
+  comments?: Comments[]
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ResData>
 ) {
   const {
     query: { slugs },
@@ -39,6 +40,7 @@ export default async function handler(
     }
   } else {
     // must be a 'GET' req.
-    res.status(200).json({ msg: 'comment get request' })
+    const comments = await getPageComments(pageId)
+    res.status(200).json({ msg: 'comment get request', comments })
   }
 }

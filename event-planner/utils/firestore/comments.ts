@@ -29,9 +29,9 @@ export const getAllComments = async (id: string): Promise<Comments[]> => {
   return comments
 }
 
-export const getPageComments = async (id: string): Promise<Comments[]> => {
+export const getPageComments = async (pageId: string): Promise<Comments[]> => {
   const commentsCol = createCollection<Comments>(`comments`)
-  const q = query(commentsCol, where('pageId', '==', id), limit(20))
+  const q = query(commentsCol, where('pageId', '==', pageId), limit(20))
   const querySnapshot = await getDocs(q)
 
   const comments: Comments[] = []

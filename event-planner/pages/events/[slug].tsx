@@ -6,13 +6,18 @@ import {
 import { EventDetail } from 'components'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import { Button } from 'ui'
+import { getPageComments } from 'utils'
+import { Comments } from 'components'
 
 interface AppProps {
   event: EventsType
+  comments: Comments[]
 }
 
-const EventDetailPage: NextPage<AppProps> = ({ event }): JSX.Element => {
+const EventDetailPage: NextPage<AppProps> = ({
+  event,
+  comments,
+}): JSX.Element => {
   if (!event) {
     return <p>Loading...</p>
   }
@@ -20,7 +25,7 @@ const EventDetailPage: NextPage<AppProps> = ({ event }): JSX.Element => {
   if (!event.id) {
     return <p>no event found</p>
   }
-  return <EventDetail event={event} />
+  return <EventDetail event={event} comments={comments} />
 }
 
 export default EventDetailPage
@@ -32,10 +37,12 @@ interface PropsType extends ParsedUrlQuery {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as PropsType
   const event = await getFireStoreEventById(slug)
+  const comments = await getPageComments(slug)
 
   return {
     props: {
       event,
+      comments,
     },
   }
 }

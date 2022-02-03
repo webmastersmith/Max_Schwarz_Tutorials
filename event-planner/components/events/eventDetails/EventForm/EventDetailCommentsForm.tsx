@@ -1,17 +1,18 @@
 import { useRef, Dispatch, SetStateAction, memo, useCallback } from 'react'
 import type { NextPage } from 'next'
-import { collection } from 'firebase/firestore'
-import { db } from 'utils'
 import { Button } from 'ui'
 import { Comments } from './EventDetailComments'
 import styles from './EventDetailCommentsForm.module.scss'
 
 interface AppProps {
   id: string
-  // setComments: Dispatch<SetStateAction<Comments[]>>
+  setStateComments: Dispatch<SetStateAction<Comments[]>>
 }
 
-const CommentsForm: NextPage<AppProps> = ({ id }): JSX.Element => {
+const CommentsForm: NextPage<AppProps> = ({
+  id,
+  setStateComments,
+}): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
 
   const handleSubmit: React.FormEventHandler = useCallback(
@@ -26,6 +27,7 @@ const CommentsForm: NextPage<AppProps> = ({ id }): JSX.Element => {
         id: crypto.randomUUID?.() ?? `${Date.now()}`,
         pageId: id,
       }
+      setStateComments((c) => [...c, commentObject])
 
       const response = await fetch(`http://localhost:3000/api/comments/${id}`, {
         method: 'POST',
@@ -36,12 +38,9 @@ const CommentsForm: NextPage<AppProps> = ({ id }): JSX.Element => {
       })
       const data = await response.json()
       console.log(data)
-
-      // addDoc(collection(db, `${id}comments`), commentObject)
-      // setComments((c: Comments[]) => [...c, commentObject])
-      // formRef.current?.reset()
+      formRef.current?.reset()
     },
-    [id]
+    []
   )
 
   return (

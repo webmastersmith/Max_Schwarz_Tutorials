@@ -1,13 +1,12 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetStaticProps } from 'next'
 import { useState } from 'react'
 import { EventDetailCommentsForm } from './EventDetailCommentsForm'
-// import { createCollection } from 'utils'
-import { addDoc } from 'firebase/firestore'
 import styles from './EventDetailComments.module.scss'
 
 interface AppProps {
   id: string
   showForm: boolean
+  comments: Comments[]
 }
 export interface Comments {
   email: string
@@ -21,14 +20,17 @@ export interface Comments {
 export const EventDetailComments: NextPage<AppProps> = ({
   id,
   showForm,
+  comments,
 }): JSX.Element => {
-  const [comments, setComments] = useState<Comments[]>([])
+  console.log('comments^', comments)
+
+  const [stateComments, setStateComments] = useState<Comments[]>(comments)
 
   const printComments = (comments: Comments[]): JSX.Element[] | JSX.Element => {
-    if (!comments.length)
+    if (!stateComments.length)
       return <p key={'noComment'}>Be the first to add a comment!</p>
 
-    return comments.map(({ id, email, name, date, comment }: Comments) => {
+    return stateComments.map(({ id, email, name, date, comment }: Comments) => {
       return (
         <div key={id}>
           <div className={styles.comment}>
@@ -42,11 +44,28 @@ export const EventDetailComments: NextPage<AppProps> = ({
 
   return (
     <div className={showForm ? 'none' : 'hide'}>
-      <EventDetailCommentsForm id={id} />
-      {printComments(comments)}
+      <EventDetailCommentsForm id={id} setStateComments={setStateComments} />
+      {printComments(stateComments)}
     </div>
   )
 }
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const eventKeys: string[] = await getAllEventKeys()
+//   console.log('keys', eventKeys)
+
+//   const paths = eventKeys.map((key: string) => {
+//     return {
+//       params: { slug: key }, //this is dynamic page name with array of possible page names.
+//     }
+//   })
+//   console.log('path', paths)
+
+//   return {
+//     paths,
+//     fallback: false,
+//   }
+// }
 
 // const commentsCol = createCollection<Comments>(`${id}comments`)
 
