@@ -12,7 +12,7 @@ export interface Comments {
   email: string
   name: string
   comment: string
-  date: string
+  date?: string
   id: string
   pageId: string
 }

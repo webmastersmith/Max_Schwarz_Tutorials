@@ -16,6 +16,7 @@ export const EventImage = ({ image, title }: AppProps): JSX.Element => {
           width={160}
           height={160}
           objectFit="cover"
+          priority
         />
       </div>
     </div>

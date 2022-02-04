@@ -14,15 +14,20 @@ interface EmailType {
   date: Date
   email: string
 }
+export function isValidEmail(email: string) {
+  const validEmailRegex =
+    /^[a-z0-9_%+]+([\.-]?\w+)*@[a-z0-9]+([\.-]?\w+)*\.[a-z]{2,}$/i
+  // const fixedEmail = email.trim().toLowerCase()
+  return validEmailRegex.test(email) && email.length < 100 ? true : false
+}
 
 export async function sendEmail(
-  email: string,
+  rawEmail: string,
   res: NextApiResponse<Data>
 ): Promise<void> {
-  const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-
   // validate email
-  if (validEmail.test(email)) {
+  const email = rawEmail.trim().toLowerCase()
+  if (isValidEmail(email)) {
     //query all emails
     const emailCol = createCollection<EmailType>('emails')
     //make sure unique, will return email if exist.

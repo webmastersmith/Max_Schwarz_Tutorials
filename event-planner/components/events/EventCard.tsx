@@ -6,10 +6,9 @@ import { EventsType } from 'data'
 
 interface AppProps {
   event: EventsType
-  key: string
 }
 
-export const EventCard = ({ event, key }: AppProps): JSX.Element => {
+export const EventCard = ({ event }: AppProps): JSX.Element => {
   const { id, image, title, date, location } = event
   const humanReadableDate = new Date(date).toLocaleString('en-US', {
     day: 'numeric',
@@ -20,7 +19,13 @@ export const EventCard = ({ event, key }: AppProps): JSX.Element => {
   return (
     <li key={id} className={styles.eventItem}>
       <div className={styles.eventImage}>
-        <Image src={'/' + image} alt={title} objectFit="cover" layout="fill" />
+        <Image
+          src={'/' + image}
+          alt={title}
+          objectFit="cover"
+          layout="fill"
+          priority
+        />
       </div>
 
       <div className={styles.eventText}>

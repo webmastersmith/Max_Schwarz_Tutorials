@@ -22,8 +22,7 @@ const CommentsForm: NextPage<AppProps> = ({
       const dataObject: unknown = Object.fromEntries(formData)
 
       const commentObject = {
-        ...(dataObject as Comments),
-        date: new Date().toISOString(),
+        ...(dataObject as Comments), //{email, name, comment}
         id: crypto.randomUUID?.() ?? `${Date.now()}`,
         pageId: id,
       }
