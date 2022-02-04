@@ -1,6 +1,6 @@
 import { EventsType } from 'data'
 import styles from './EventDetailPage.module.scss'
-import { EventCard } from './EventCard'
+import { EventDetailsCard } from './EventDetailsCard'
 import { EventDetailComments } from './EventForm'
 import Head from 'next/head'
 import { Button } from 'ui'
@@ -29,7 +29,7 @@ export const EventDetail = ({ event, comments }: AppProps): JSX.Element => {
       </Head>
       <h1 className={styles.h1}>{title}</h1>
 
-      <EventCard
+      <EventDetailsCard
         image={image}
         location={location}
         title={title}

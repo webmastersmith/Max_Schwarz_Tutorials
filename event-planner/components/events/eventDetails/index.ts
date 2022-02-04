@@ -1,3 +1,3 @@
 export * from './EventDetailPage'
-export * from './EventCard'
+export * from './EventDetailsCard'
 export * from './EventForm'

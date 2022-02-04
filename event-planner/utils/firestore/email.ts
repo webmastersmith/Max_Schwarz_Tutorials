@@ -31,11 +31,11 @@ export async function sendEmail(
     // no match found, email is unique if querySnapshot is empty.
     if (querySnapshot.empty) {
       // send valid unique email.
-      const docRef = await addDoc(collection(db, 'emails'), {
+      const emailRef = await addDoc(collection(db, 'emails'), {
         email,
         date: new Date().toISOString(),
       })
-      console.log(docRef?.id)
+      console.log('email was posted successfully!', emailRef?.id)
       res.status(200).json({ msg: 'Thank you for your email' })
     } else {
       // email already exist in db.

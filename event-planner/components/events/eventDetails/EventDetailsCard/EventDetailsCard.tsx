@@ -1,4 +1,4 @@
-import styles from './EventCard.module.scss'
+import styles from './EventDetailsCard.module.scss'
 import { EventImage, EventText } from 'components'
 
 interface AppProps {
@@ -8,7 +8,7 @@ interface AppProps {
   date: string
 }
 
-export const EventCard = ({
+export const EventDetailsCard = ({
   title,
   image,
   location,

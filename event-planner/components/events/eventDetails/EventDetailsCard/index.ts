@@ -1,3 +1,3 @@
-export * from './EventCard'
+export * from './EventDetailsCard'
 export * from './EventCardImage'
 export * from './EventCardText'
