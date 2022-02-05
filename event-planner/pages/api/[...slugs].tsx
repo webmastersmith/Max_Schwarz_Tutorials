@@ -26,19 +26,35 @@ export default async function handler(
       const eventKeys = await getAllEventKeys()
       if (eventKeys.includes(pageId)) {
         // let's post a comment!
-        postComment(req.body)
-        res.status(200).json({ msg: 'comments post success!' })
+        try {
+          postComment(req.body)
+          res.status(200).json({ msg: 'comments post success!' })
+        } catch (e) {
+          console.log('comment post error:', e)
+          res
+            .status(408)
+            .json({ msg: 'comments post error. Post did not go through' })
+        }
       } else {
         // keys not valid
-        res.status(200).json({ msg: 'comment wrong post pageId', slug, pageId })
+        res.status(400).json({ msg: 'comment wrong post pageId', slug, pageId })
       }
     } else {
       // wrong request -not for comments
-      res.status(200).json({ msg: 'comment wrong post request', slug, pageId })
+      res.status(400).json({ msg: 'comment wrong post request', slug, pageId })
     }
   } else {
     // must be a 'GET' req.
-    const comments = await getPageComments(pageId)
-    res.status(200).json({ msg: 'comment get request', comments })
+    try {
+      const comments = await getPageComments(pageId)
+      res.status(200).json({ msg: 'comment get request', comments })
+    } catch (e) {
+      console.log('comments get request error:', e)
+      res
+        .status(408)
+        .json({
+          msg: 'comment get request error. Server not responding, Try again.',
+        })
+    }
   }
 }
