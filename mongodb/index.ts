@@ -18,11 +18,11 @@ async function run() {
 
     // await listDatabases(client)
 
-    // await listCollection(client)
+    await listCollection(client)
 
     // await addItemToCollection(client, item)
 
-    await getCollection(client, 'reviews')
+    // await getCollection(client, 'reviews')
   } catch (e) {
     console.error(e)
   } finally {
@@ -40,11 +40,10 @@ async function listDatabases(client: MongoClient): Promise<void> {
 }
 
 async function listCollection(client: MongoClient): Promise<void> {
-  const video = await client.db('video').collections()
-
-  // const col = await client.db('video').collection('reviews')
-  console.log('video', video)
-  // console.log('col', col)
+  const collections = await client.db('video').listCollections().toArray()
+  for (const collection of collections) {
+    console.log('video', collection.name)
+  }
 }
 
 async function addItemToCollection(client: MongoClient, item: any) {

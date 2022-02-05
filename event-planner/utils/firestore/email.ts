@@ -21,10 +21,15 @@ export function isValidEmail(email: string) {
   return validEmailRegex.test(email) && email.length < 100 ? true : false
 }
 
+interface EmailReturnType {
+  status: number
+  msg: string
+}
+
 export async function sendEmail(
   rawEmail: string,
   res: NextApiResponse<Data>
-): Promise<void> {
+): Promise<EmailReturnType> {
   // validate email
   const email = rawEmail.trim().toLowerCase()
   if (isValidEmail(email)) {
@@ -41,14 +46,14 @@ export async function sendEmail(
         date: new Date().toISOString(),
       })
       console.log('email was posted successfully!', emailRef?.id)
-      res.status(200).json({ msg: 'Thank you for your email' })
+      return { status: 201, msg: 'Thank you for your email' }
     } else {
       // email already exist in db.
-      res.status(200).json({ msg: 'Thank you for your existing email' })
+      return { status: 200, msg: 'Thank you for your existing email' }
     }
 
     // email failed regex and is invalid
   } else {
-    res.status(200).json({ msg: 'Please check email and try again.' })
+    return { status: 422, msg: 'Please check email and try again.' }
   }
 }
