@@ -2,6 +2,7 @@ import { createCollection } from 'utils'
 import { getDocs, addDoc, query, where, limit } from 'firebase/firestore'
 import { Comments } from 'components'
 import { isValidEmail } from './email'
+// import v from 'validator'
 
 export const getAllEventKeys = async () => {
   const eventsCol = createCollection<Comments>(`events`)
@@ -49,13 +50,18 @@ export const postComment = async (newComment: Comments): Promise<void> => {
   // date: new Date().toISOString(),
   // id: crypto.randomUUID?.() ?? `${Date.now()}`,
   // pageId: id,
+  function stringify(word: string, lower: boolean = false) {
+    const wordString = typeof word === 'string' ? word : word + ''
+    return lower ? wordString.trim().toLowerCase() : wordString.trim()
+  }
   const { email, name, comment, pageId, id } = newComment
-  const fixedEmail = email.trim().toLocaleLowerCase()
-  const fixedName = name.trim()
-  const fixedComment = comment.trim()
-  const fixedPageId = pageId.trim()
-  const fixedId = id?.trim()
-  function notToLong(word: string, chars: number) {
+  const fixedEmail = stringify(email, true)
+  const fixedName = stringify(name)
+  const fixedComment = stringify(comment)
+  const fixedPageId = stringify(pageId)
+  const fixedId = stringify(id)
+
+  function checkLength(word: string, chars: number) {
     return typeof word === 'string' && word.length > 0 && word.length <= chars
       ? true
       : false
@@ -63,11 +69,11 @@ export const postComment = async (newComment: Comments): Promise<void> => {
 
   if (
     isValidEmail(fixedEmail) &&
-    notToLong(fixedEmail, 100) &&
-    notToLong(fixedName, 100) &&
-    notToLong(fixedComment, 800) &&
-    notToLong(fixedPageId, 50) &&
-    notToLong(fixedId, 50)
+    checkLength(fixedEmail, 100) &&
+    checkLength(fixedName, 100) &&
+    checkLength(fixedComment, 800) &&
+    checkLength(fixedPageId, 50) &&
+    checkLength(fixedId, 50)
   ) {
     const eventKeys = await getAllEventKeys()
     if (eventKeys.includes(fixedPageId)) {
