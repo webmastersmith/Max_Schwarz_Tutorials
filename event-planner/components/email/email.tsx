@@ -2,6 +2,9 @@ import type { NextPage } from 'next'
 import { useRef, useState } from 'react'
 import styles from './email.module.scss'
 import { Button } from 'ui'
+import { RootState, reset, success } from 'reduxToolkit'
+import { useSelector, useDispatch } from 'react-redux'
+import { Notify } from 'components'
 
 export const RegisterEmail: NextPage = (): JSX.Element => {
   const [msg, setMsg] = useState('')
@@ -27,6 +30,7 @@ export const RegisterEmail: NextPage = (): JSX.Element => {
       emailRef.current.value = ''
     }
   }
+
   const checkMsg = (msg: string) => {
     if (msg) {
       return (
@@ -50,6 +54,7 @@ export const RegisterEmail: NextPage = (): JSX.Element => {
             Register
           </Button>
         </div>
+        <Notify title="test" msg="hello" />
       </div>
     )
   }
