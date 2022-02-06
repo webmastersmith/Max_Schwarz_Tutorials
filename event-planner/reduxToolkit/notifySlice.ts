@@ -1,34 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface NotifySliceType {
-  status: string
+  title: string
+  msg: string
+  status: 'success' | 'error' | 'pending' | 'hide'
 }
 
 const initialState: NotifySliceType = {
-  status: '',
+  title: '',
+  msg: '',
+  status: 'hide',
 }
 
 export const notifySlice = createSlice({
-  name: 'notify',
+  name: 'messages',
   initialState,
   reducers: {
-    error: (state) => {
-      state.status = 'error'
-    },
-    success: (state) => {
-      state.status = 'success'
-    },
-    pending: (state) => {
-      state.status = 'pending'
-    },
-    reset: (state) => {
-      state.status = ''
+    message: (state, action: PayloadAction<NotifySliceType>) => {
+      state = {
+        title: action.payload.title,
+        msg: action.payload.msg,
+        status: action.payload.status,
+      }
+      return state
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { error, success, pending, reset } = notifySlice.actions
+export const { message } = notifySlice.actions
 
 export const notifyReducer = notifySlice.reducer
 

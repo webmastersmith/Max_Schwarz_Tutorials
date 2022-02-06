@@ -17,7 +17,7 @@ export default async function handler(
       res.status(status).json({ msg })
     } catch (e) {
       console.log('error posting email to db', e)
-      res.status(422).json({ msg: 'message failed.' })
+      res.status(422).json({ msg: 'message post failed.' })
     }
   } else {
     // must be a 'GET' req.
