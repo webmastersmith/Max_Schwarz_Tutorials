@@ -37,11 +37,12 @@ export default async function handler(
         }
       } else {
         // keys not valid
-        res.status(400).json({ msg: 'comment wrong post pageId', slug, pageId })
+        console.log('Error: Page Id not found', slug, pageId)
+        res.status(400).json({ msg: 'request page not found', slug, pageId })
       }
     } else {
       // wrong request -not for comments
-      res.status(400).json({ msg: 'comment wrong post request', slug, pageId })
+      res.status(400).json({ msg: 'request not found.', slug, pageId })
     }
   } else {
     // must be a 'GET' req.
@@ -50,11 +51,9 @@ export default async function handler(
       res.status(200).json({ msg: 'comment get request', comments })
     } catch (e) {
       console.log('comments get request error:', e)
-      res
-        .status(408)
-        .json({
-          msg: 'comment get request error. Server not responding, Try again.',
-        })
+      res.status(408).json({
+        msg: 'comment get request error. Server not responding, Try again.',
+      })
     }
   }
 }

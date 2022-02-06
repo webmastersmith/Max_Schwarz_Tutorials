@@ -13,7 +13,7 @@ const initialState: NotifySliceType = {
 }
 
 export const notifySlice = createSlice({
-  name: 'messages',
+  name: 'message',
   initialState,
   reducers: {
     message: (state, action: PayloadAction<NotifySliceType>) => {
@@ -24,11 +24,19 @@ export const notifySlice = createSlice({
       }
       return state
     },
+    reset: (state) => {
+      state = {
+        title: '',
+        msg: '',
+        status: 'hide',
+      }
+      return state
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { message } = notifySlice.actions
+export const { message, reset } = notifySlice.actions
 
 export const notifyReducer = notifySlice.reducer
 

@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 import { Notify } from 'components'
 
 export const RegisterEmail: NextPage = (): JSX.Element => {
-  // const [msg, setMsg] = useState('')
   const emailRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
 
@@ -60,20 +59,10 @@ export const RegisterEmail: NextPage = (): JSX.Element => {
     }
 
     // reset form -could be null, so if check needed.
-    // if (!!emailRef.current) {
-    //   emailRef.current.value = ''
-    // }
+    if (!!emailRef.current) {
+      emailRef.current.value = ''
+    }
   }
-
-  // const checkMsg = (msg: string) => {
-  //   // if (msg) {
-  //   //   return (
-  //   //     <div className={styles.emailWrapperDiv}>
-  //   //       <h1 className={styles.h1}>{msg}</h1>
-  //   //     </div>
-  //   //   )
-  //   // }
-  // }
 
   return (
     <div className={styles.emailWrapperDiv}>
