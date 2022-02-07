@@ -1,11 +1,15 @@
 import type { NextPage } from 'next'
-// import styles from './FeaturedPosts.module.scss'
+import styles from './featuredPosts.module.scss'
 
-// interface Props {
-//   data: string
-// }
+//interface Props {
+//data: string
+//}
 
-// export const FeaturedPosts: NextPage<Props> = ({ data }): JSX.Element => {
+//export const FeaturedPosts: NextPage<Props> = ({data}): JSX.Element => {
 export const FeaturedPosts: NextPage = (): JSX.Element => {
-  return <div>FeaturedPosts</div>
+  return (
+    <section className={styles.latest}>
+      <h2>Featured Posts</h2>
+    </section>
+  )
 }
