@@ -1,10 +1,23 @@
 import type { NextPage } from 'next'
 import styles from './postDetail.module.scss'
+import { PostDetailHeader } from './postDetailHeader'
+import ReactMarkdown from 'react-markdown'
 
 interface Props {
-  data: string
+  title: string
+  image: string
+  content: string
 }
 
-export const PostDetail: NextPage<Props> = (): JSX.Element => {
-  return <div>PostDetail</div>
+export const PostDetail: NextPage<Props> = ({
+  title,
+  image,
+  content,
+}): JSX.Element => {
+  return (
+    <article className={styles.content}>
+      <PostDetailHeader title={title} image={image} />
+      <ReactMarkdown>{content}</ReactMarkdown>
+    </article>
+  )
 }
