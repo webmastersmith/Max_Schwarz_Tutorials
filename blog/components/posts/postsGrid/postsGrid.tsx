@@ -8,9 +8,25 @@ interface Props {
 }
 
 export const PostGrid: NextPage<Props> = ({ posts }): JSX.Element => {
+  let newPosts = posts
+  if (!Array.isArray(posts)) {
+    newPosts = [
+      {
+        date: '',
+        title: '',
+        image: '',
+        excerpt: '',
+        slug: '',
+        id: '1',
+        isFeatured: false,
+        content: '',
+      },
+    ]
+  }
+
   return (
     <ul className={styles.grid}>
-      {posts.map((post) => {
+      {newPosts.map((post) => {
         return <PostItem post={post} key={post.id} />
       })}
     </ul>

@@ -11,12 +11,8 @@ export const getPostData = (fileName: string): PostTypes => {
     path.join(postDirectory, fileName),
     'utf-8'
   )
-  console.log('fileContent', fileContent)
   // data is metadata, content is anything below metadata as template string.
   const { data, content } = matter(fileContent)
-  console.log('data', data)
-  console.log('content', content)
-  console.log('typeof content', typeof content)
 
   const slug = fileName.replace(/\.md/, '')
   const postData: PostTypes = {
@@ -28,9 +24,13 @@ export const getPostData = (fileName: string): PostTypes => {
   return postData
 }
 
+export const getAllFileNames = (): string[] => {
+  return fs.readdirSync(postDirectory)
+  // .map((file) => file.replace(/(\.md|\.mdx)$/, ''))
+}
+
 export const getAllPosts = (): PostTypes[] => {
   const files = fs.readdirSync(postDirectory)
-  console.log('files', files)
   const allPosts: PostTypes[] = files.map((file) => getPostData(file))
 
   // small to big
@@ -45,6 +45,5 @@ export const getAllPosts = (): PostTypes[] => {
 export const getFeaturedPost = (): PostTypes[] => {
   const allPosts = getAllPosts()
   const filteredPosts = allPosts.filter((post) => post.isFeatured)
-  console.log('filteredPosts', filteredPosts)
   return filteredPosts
 }

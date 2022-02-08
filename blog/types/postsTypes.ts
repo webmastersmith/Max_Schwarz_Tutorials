@@ -5,5 +5,6 @@ export interface PostTypes {
   excerpt: string
   slug: string
   id: string
-  [key: string]: any
+  content?: string
+  isFeatured?: boolean
 }

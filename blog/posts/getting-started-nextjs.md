@@ -1,7 +1,7 @@
 ---
 # comment check
 title: 'Getting Started with NextJS'
-date: '2022-10-15'
+date: '2022-9-15'
 image: 'getting-started-nextjs.png'
 excerpt: 'NextJS is a React Framework for production - it makes building fullstack React apps a breeze and ships with built-in SSR.'
 isFeatured: true
