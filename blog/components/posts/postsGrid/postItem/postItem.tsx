@@ -26,6 +26,7 @@ export const PostItem: NextPage<Props> = ({ post }): JSX.Element => {
               width={300}
               height={200}
               layout="responsive"
+              priority
             />
           </div>
 
