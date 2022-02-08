@@ -1,3 +1,8 @@
 export interface PostTypes {
-  data: string
+  date: string
+  title: string
+  image: string
+  excerpt: string
+  slug: string
+  id: string
 }

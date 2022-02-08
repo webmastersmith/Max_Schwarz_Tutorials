@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^9.6.4"
+    "firebase": "^9.6.4",
+    "hyperid": "^3.0.0"
   }
 }
