@@ -1,3 +1,4 @@
+import { FC } from 'react'
 export interface PostTypes {
   date: string
   title: string

@@ -3,7 +3,7 @@ import { PostDetail } from 'components'
 import { getAllFileNames, getPostData } from 'utils'
 import { PostTypes } from 'types'
 import { ParsedUrlQuery } from 'querystring'
-import { useRouter } from 'next/router'
+import React from 'react'
 
 interface Props {
   post: PostTypes
@@ -28,7 +28,8 @@ interface PropsType extends ParsedUrlQuery {
 }
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as PropsType
-  const post = getPostData(`${slug}.md`)
+  const post = await getPostData(slug)
+
   return {
     props: {
       post,
@@ -37,12 +38,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const files = getAllFileNames()
-  const paths = files.map((slug: string) => {
-    return {
-      params: { slug }, //this is dynamic page name with array of possible page names.
-    }
-  })
+  const paths = getAllFileNames().map((slug: string) => ({ params: { slug } }))
   return {
     paths,
     fallback: false, //show 404 page

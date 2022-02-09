@@ -11,6 +11,7 @@ interface Props {
 const HomePage: NextPage<Props> = ({ posts }) => {
   // 1) hero -welcome page that present main product or yourself in the case of a blog.
   // 2) featured posts
+  // const Component = React.useMemo(() => getMDXComponent(code), [code])
 
   return (
     <div>
@@ -32,7 +33,7 @@ interface StaticPropsType {
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<StaticPropsType> => {
-  const posts = getFeaturedPost()
+  const posts = await getFeaturedPost()
   return {
     props: {
       posts,

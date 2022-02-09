@@ -14,7 +14,7 @@ const AllPostsPage: NextPage<Props> = ({ posts }) => {
 export default AllPostsPage
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const posts = getAllPosts() ?? []
+  const posts = await getAllPosts()
   return {
     props: {
       posts,

@@ -141,3 +141,6 @@ h6 {
 body {
   background-color: var(--color-grey-500);
 }
+a:link {
+  text-decoration: none;
+}
