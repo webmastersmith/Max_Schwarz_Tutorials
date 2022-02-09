@@ -1,3 +1,28 @@
 // @ts-ignore
 // prettier-ignore
 export const uuid = (a) => (a?(a^Math.random()*16>>a/4).toString(16):([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,uuid))
+
+export const tempPosts = () => {
+  return [
+    {
+      date: '12-03-02',
+      title: 'getting-started-nextjs',
+      image: 'getting-started-nextjs.png',
+      excerpt: 'test excerpt',
+      isFeatured: true,
+      slug: '',
+      content: 'test',
+      id: uuid(''),
+    },
+    {
+      date: '12-03-02',
+      title: 'getting-started-nextjs',
+      image: 'getting-started-nextjs.png',
+      excerpt: 'test excerpt',
+      isFeatured: true,
+      slug: '',
+      content: 'test',
+      id: uuid(''),
+    },
+  ]
+}

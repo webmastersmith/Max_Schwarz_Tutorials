@@ -1,4 +1,5 @@
-import { FC } from 'react'
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+
 export interface PostTypes {
   date: string
   title: string
@@ -6,6 +7,20 @@ export interface PostTypes {
   excerpt: string
   slug: string
   id: string
-  content?: string
   isFeatured?: boolean
+  content?: MDXRemoteSerializeResult<Record<string, unknown>>
+}
+
+export interface MatterType {
+  content: string
+  frontMatter: PostTypes
+}
+
+export interface MdxPropType {
+  mdxSource: MDXRemoteSerializeResult<PostTypes>
+}
+
+export interface MdxType {
+  compiledSource: string
+  scope: PostTypes
 }

@@ -1,46 +1,36 @@
 import fs from 'fs'
 import path from 'path'
-// import matter from 'gray-matter'
-import { uuid } from './utils'
-import { PostTypes } from 'types'
-import { bundleMDX } from 'mdx-bundler'
-
-// needed for bundleMDX
-if (process.platform === 'win32') {
-  process.env.ESBUILD_BINARY_PATH = path.join(
-    process.cwd(),
-    'node_modules',
-    'esbuild',
-    'esbuild.exe'
-  )
-} else {
-  process.env.ESBUILD_BINARY_PATH = path.join(
-    process.cwd(),
-    'node_modules',
-    'esbuild',
-    'bin',
-    'esbuild'
-  )
-}
+import matter from 'gray-matter'
+import { uuid, tempPosts } from './utils'
+import { PostTypes, MatterType } from 'types'
 
 const postDirectory = path.join(process.cwd(), 'posts')
 
-export const getPostData = async (fileName: string): Promise<PostTypes> => {
+const getPostData = (fileName: string): MatterType => {
   const slug = fileName.replace(/\.mdx/, '')
   const source = fs.readFileSync(
     path.join(postDirectory, `${slug}.mdx`),
     'utf-8'
   )
-  // data is metadata, content is anything below metadata as template string.
-  // const { data, content } = matter(fileContent)
-  const { code, frontmatter } = await bundleMDX({ source, cwd: postDirectory })
-
-  const postData: PostTypes = {
-    ...(frontmatter as PostTypes),
+  // data is metadata (frontMatter), content is anything below metadata as template string.
+  const { content, data } = matter(source)
+  const newData = {
+    ...(data as PostTypes),
     slug,
-    content: code,
     id: uuid(''),
   }
+
+  // const postData: PostTypes = {
+  //   // ...(frontmatter as PostTypes),
+  //   date: '12-03-02',
+  //   title: 'test title',
+  //   image: '',
+  //   excerpt: 'test excerpt',
+  //   isFeatured: false,
+  //   slug,
+  //   content: 'test',
+  //   id: uuid(''),
+  // }
 
   // const postData: PostTypes = {
   //   ...(data as PostTypes),
@@ -48,30 +38,44 @@ export const getPostData = async (fileName: string): Promise<PostTypes> => {
   //   content,
   //   id: uuid(''),
   // }
-  return postData
+  return { content, frontMatter: newData }
 }
 
 export const getAllFileNames = (): string[] => {
-  return fs.readdirSync(postDirectory).map((file) => file.replace(/\.mdx$/, ''))
+  return fs
+    .readdirSync(postDirectory)
+    .filter((file) => !/\.mdx$/.test(file))
+    .map((file) => file.replace(/\.mdx$/, ''))
 }
 
-export const getAllPosts = async (): Promise<PostTypes[]> => {
-  const files = fs.readdirSync(postDirectory)
-  const allPosts: PostTypes[] = await Promise.all(
-    files.map(async (file) => await getPostData(file))
-  )
+export const getAllPosts = (featured: boolean = false): MatterType[] => {
+  // read post directory, filter non-mdx files
+  const files = fs
+    .readdirSync(postDirectory)
+    .filter((fileName) => !/\.mdx$/.test(fileName))
+  // scrape info from mdx pages
+  const matterData: MatterType[] = files.map((file) => getPostData(file))
+
+  let finalMatterData = matterData
+  // if true filter for isFeatured.
+  if (featured) {
+    finalMatterData = matterData.filter(
+      (matterObj: MatterType) => matterObj.frontMatter.isFeatured
+    )
+  }
 
   // small to big
-  allPosts.sort((objA: PostTypes, objB: PostTypes) => {
-    const a = objA.date
-    const b = objB.date
+  finalMatterData.sort((objA: MatterType, objB: MatterType) => {
+    const a = objA.frontMatter.date
+    const b = objB.frontMatter.date
     return a < b ? -1 : b < a ? 1 : 0
   })
-  return allPosts
+  return finalMatterData
 }
 
-export const getFeaturedPost = async (): Promise<PostTypes[]> => {
-  const allPosts = await getAllPosts()
-  const filteredPosts = allPosts.filter((post) => post.isFeatured)
-  return filteredPosts
-}
+// export const getFeaturedPost = async (): Promise<PostTypes[]> => {
+//   const allPosts = await getAllPosts()
+//   const filteredPosts = allPosts.filter((post) => post.isFeatured)
+//   // return filteredPosts
+//   return tempPosts()
+// }

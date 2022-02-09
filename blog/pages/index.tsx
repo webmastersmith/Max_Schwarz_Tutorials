@@ -1,8 +1,10 @@
 import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { Hero, FeaturedPosts } from 'components'
-import { PostTypes } from 'types'
-import { getFeaturedPost } from 'utils'
+import { MatterType, PostTypes } from 'types'
+import { getAllPosts } from 'utils'
+import { serialize } from 'next-mdx-remote/serialize' //server-side only
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 
 interface Props {
   posts: PostTypes[]
@@ -26,14 +28,21 @@ const HomePage: NextPage<Props> = ({ posts }) => {
 
 export default HomePage
 
-interface StaticPropsType {
-  props: { posts: PostTypes[] }
-}
+// interface StaticPropsType {
+//   props: { posts: PostTypes[] }
+// }
 
-export const getStaticProps: GetStaticProps = async (
-  context
-): Promise<StaticPropsType> => {
-  const posts = await getFeaturedPost()
+export const getStaticProps: GetStaticProps = async (context) => {
+  const matterData: MatterType[] = getAllPosts(true)
+  const posts = Promise.all(
+    matterData.map(async (data: MatterType) => {
+      const content = await serialize(data.content)
+      return {
+        ...data.frontMatter,
+        content,
+      }
+    })
+  )
   return {
     props: {
       posts,
