@@ -5,6 +5,8 @@ import { MatterType, PostTypes } from 'types'
 import { getAllPosts } from 'utils'
 import { serialize } from 'next-mdx-remote/serialize' //server-side only
 
+import Test from 'posts/test'
+
 interface Props {
   posts: PostTypes[]
 }
@@ -21,6 +23,7 @@ const HomePage: NextPage<Props> = ({ posts }) => {
       </Head>
       <Hero />
       <FeaturedPosts posts={posts} />
+      <Test name="Bobbby" year={2024} />
     </div>
   )
 }
