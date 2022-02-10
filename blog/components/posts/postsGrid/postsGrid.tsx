@@ -9,7 +9,10 @@ interface Props {
 
 export const PostGrid: NextPage<Props> = ({ posts }): JSX.Element => {
   let newPosts = posts
+
   if (!Array.isArray(posts)) {
+    console.log('PostGrid empty array!!!!!!!!!!!!!!!!!!!')
+
     newPosts = [
       {
         date: '',

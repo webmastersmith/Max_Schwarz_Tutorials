@@ -6,12 +6,13 @@ import { PostTypes, MatterType } from 'types'
 
 const postDirectory = path.join(process.cwd(), 'posts')
 
-const getPostData = (fileName: string): MatterType => {
+export const getPostData = (fileName: string): MatterType => {
   const slug = fileName.replace(/\.mdx/, '')
   const source = fs.readFileSync(
     path.join(postDirectory, `${slug}.mdx`),
     'utf-8'
   )
+
   // data is metadata (frontMatter), content is anything below metadata as template string.
   const { content, data } = matter(source)
   const newData = {
@@ -38,13 +39,14 @@ const getPostData = (fileName: string): MatterType => {
   //   content,
   //   id: uuid(''),
   // }
+
   return { content, frontMatter: newData }
 }
 
 export const getAllFileNames = (): string[] => {
   return fs
     .readdirSync(postDirectory)
-    .filter((file) => !/\.mdx$/.test(file))
+    .filter((file) => /\.mdx$/.test(file))
     .map((file) => file.replace(/\.mdx$/, ''))
 }
 
@@ -52,7 +54,8 @@ export const getAllPosts = (featured: boolean = false): MatterType[] => {
   // read post directory, filter non-mdx files
   const files = fs
     .readdirSync(postDirectory)
-    .filter((fileName) => !/\.mdx$/.test(fileName))
+    .filter((fileName) => /\.mdx$/.test(fileName))
+
   // scrape info from mdx pages
   const matterData: MatterType[] = files.map((file) => getPostData(file))
 

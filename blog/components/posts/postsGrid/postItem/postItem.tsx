@@ -9,7 +9,9 @@ interface Props {
 }
 
 export const PostItem: NextPage<Props> = ({ post }): JSX.Element => {
+  // console.log('PostItem', post.date)
   if (!post.date) return <p>No post found.</p>
+  // console.log('PostItem', post)
   const { date, title, image, excerpt, slug } = post
   const formattedDate = new Date(date).toLocaleString('en-US', {
     day: 'numeric',

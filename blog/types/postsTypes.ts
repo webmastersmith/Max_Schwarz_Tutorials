@@ -8,7 +8,7 @@ export interface PostTypes {
   slug: string
   id: string
   isFeatured?: boolean
-  content?: MDXRemoteSerializeResult<Record<string, unknown>>
+  content?: any
 }
 
 export interface MatterType {

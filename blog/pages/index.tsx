@@ -4,7 +4,6 @@ import { Hero, FeaturedPosts } from 'components'
 import { MatterType, PostTypes } from 'types'
 import { getAllPosts } from 'utils'
 import { serialize } from 'next-mdx-remote/serialize' //server-side only
-import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 
 interface Props {
   posts: PostTypes[]
@@ -34,15 +33,23 @@ export default HomePage
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const matterData: MatterType[] = getAllPosts(true)
-  const posts = Promise.all(
+  // console.log('/matterData', matterData)
+
+  const posts = await Promise.all(
     matterData.map(async (data: MatterType) => {
+      // console.log('data', data)
+
       const content = await serialize(data.content)
+      // console.log(content)
+
       return {
         ...data.frontMatter,
         content,
       }
     })
   )
+  // console.log('/', posts)
+
   return {
     props: {
       posts,
