@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { bundleMDX } from 'mdx-bundler'
-import imageSize from 'rehype-img-size'
+// import imageSize from 'rehype-img-size'
 
 const ROOT = process.cwd()
 const POSTS_PATH = path.join(ROOT, 'posts')
@@ -31,7 +31,8 @@ export const getCompiledMDX = async (content: string) => {
 
   // Add your remark and rehype plugins here
   const remarkPlugins: any[] = []
-  const rehypePlugins = [[imageSize, { dir: 'public' }]]
+  // const rehypePlugins = [[imageSize, { dir: 'public' }]]
+  const rehypePlugins: any[] = []
   try {
     return await bundleMDX({
       source: content,
