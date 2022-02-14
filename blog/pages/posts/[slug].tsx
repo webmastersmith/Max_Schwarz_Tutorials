@@ -1,23 +1,19 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from 'next'
 import { PostDetail } from 'components'
-import { getAllFileNames, getPostData } from 'utils'
-import { PostTypes } from 'types'
+import { getAllPostsFileNames, getCompiledMDX } from 'utils'
+import { PostType } from 'types'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
-import { serialize } from 'next-mdx-remote/serialize'
 
 interface Props {
-  post: PostTypes
+  post: PostType
 }
 
 const PostPage: NextPage<Props> = ({ post }) => {
   if (!post?.date) return <p>No Detail Page found.</p>
   const imagePath = `/images/posts/${post.slug}/${post.image}`
-  return (
-    <PostDetail title={post.title} image={imagePath} content={post.content} />
-  )
+  return <PostDetail post={post} />
 }
-
 export default PostPage
 
 interface PropsType extends ParsedUrlQuery {
@@ -25,15 +21,7 @@ interface PropsType extends ParsedUrlQuery {
 }
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as PropsType
-  const { content, frontMatter } = getPostData(slug)
-  const mdxSource = await serialize(content)
-  // console.log('mdx', mdxSource)
-
-  const post = {
-    ...frontMatter,
-    content: mdxSource,
-  }
-
+  const post = await getCompiledMDX(slug)
   return {
     props: {
       post,
@@ -42,7 +30,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getAllFileNames().map((slug: string) => ({ params: { slug } }))
+  const paths = getAllPostsFileNames().map((slug: string) => ({
+    params: { slug },
+  }))
 
   return {
     paths,

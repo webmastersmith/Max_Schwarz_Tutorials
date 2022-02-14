@@ -2,16 +2,12 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from './postItem.module.scss'
-import { PostTypes } from 'types'
+import { PostType } from 'types'
 
 interface Props {
-  post: PostTypes
+  post: PostType
 }
-
 export const PostItem: NextPage<Props> = ({ post }): JSX.Element => {
-  // console.log('PostItem', post.date)
-  if (!post.date) return <p>No post found.</p>
-  // console.log('PostItem', post)
   const { date, title, image, excerpt, slug } = post
   const formattedDate = new Date(date).toLocaleString('en-US', {
     day: 'numeric',

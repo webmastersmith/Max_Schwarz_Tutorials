@@ -1,25 +1,21 @@
 import type { NextPage } from 'next'
+import { useMemo } from 'react'
+import { PostType } from 'types'
 import styles from './postDetail.module.scss'
 import { PostDetailHeader } from './postDetailHeader'
-import { MDXRemote } from 'next-mdx-remote'
+import { getMDXComponent } from 'mdx-bundler/client'
 
 interface Props {
-  title: string
-  image: string
-  content: any
+  post: PostType
 }
 
-export const PostDetail: NextPage<Props> = ({
-  title,
-  image,
-  content,
-}): JSX.Element => {
-  // console.log('MDXRemote', <MDXRemote {...content} />)
-
+export const PostDetail: NextPage<Props> = ({ post }): JSX.Element => {
+  const { title, image, code } = post
+  const MDX = useMemo(() => getMDXComponent(code), [code])
   return (
     <article className={styles.content}>
       <PostDetailHeader title={title} image={image} />
-      <MDXRemote {...content} />
+      <MDX />
     </article>
   )
 }

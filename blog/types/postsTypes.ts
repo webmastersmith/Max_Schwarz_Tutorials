@@ -1,26 +1,16 @@
-import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-
-export interface PostTypes {
+import { getCompiledMDX } from 'utils'
+export interface PostType {
   date: string
   title: string
   image: string
   excerpt: string
+  isFeatured: boolean
   slug: string
   id: string
-  isFeatured?: boolean
-  content?: any
-}
-
-export interface MatterType {
+  code: string
   content: string
-  frontMatter: PostTypes
 }
 
-export interface MdxPropType {
-  mdxSource: MDXRemoteSerializeResult<PostTypes>
-}
-
-export interface MdxType {
-  compiledSource: string
-  scope: PostTypes
+export interface PostsType {
+  posts: PostType[]
 }
