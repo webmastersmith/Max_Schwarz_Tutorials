@@ -1,15 +1,19 @@
 ---
 title: my new title
 name: 'bob'
+
 ---
+import Box from '../components/box.tsx'
 
 # Example: hello {frontmatter.name.toUpperCase()}
 ## Example: {frontmatter.title}
 
 
-![the water mountain (priority)(300x200) ](water.jpg)
+<Box title={frontmatter.title} />
 
-![the woods (500x300) ](woods.jpg)
+![the water mountain (priority)(300x200)(data:image\/jpeg;base64,\/9j\/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj\/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj\/wAARCAACAAQDASIAAhEBAxEB\/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf\/xAAgEAACAgEDBQAAAAAAAAAAAAABAgADBQcIIiQlMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT\/xAAXEQADAQAAAAAAAAAAAAAAAAAAATEC\/9oADAMBAAIRAxEAPwCk7eO46TYW3IdVaqmtXv5sFHhQT6HyIiFqsndP\/9k=) ](water.jpg)
+
+![the woods (500x300)(data:image\/jpeg;base64,\/9j\/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj\/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj\/wAARCAACAAQDASIAAhEBAxEB\/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf\/xAAgEAACAgEDBQAAAAAAAAAAAAABAgADBQcIIiQlMUFR\/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT\/xAAXEQADAQAAAAAAAAAAAAAAAAAAATEC\/9oADAMBAAIRAxEAPwCk7eO46TYW3IdVaqmtXv5sFHhQT6HyIiFqsndP\/9k=) ](woods.jpg)
 
 
 
