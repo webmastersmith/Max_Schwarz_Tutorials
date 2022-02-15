@@ -8,6 +8,7 @@ export interface PostType {
   id: string
   code: string
   content: string
+  blurDataURL?: string
 }
 
 export interface PostsType {
