@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import styles from './postDetailHeader.module.scss'
 import Image from 'next/image'
-import { PostTypes } from 'types'
 
 interface Props {
   title: string

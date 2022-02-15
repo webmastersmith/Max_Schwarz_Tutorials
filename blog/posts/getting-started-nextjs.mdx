@@ -5,9 +5,11 @@ image: getting-started-nextjs.png
 excerpt: NextJS is a the React framework for production - it makes building fullstack React apps and sites a breeze and ships with built-in SSR.
 isFeatured: true
 ---
-# Hello {props.name.toUpperCase()}
+import { getPlaiceholder } from "plaiceholder"
+{getPlaiceholder.}
+# Hello {frontmatter.title.toUpperCase()}
 
-The current year is {props.year}
+The current year is {frontmatter.year}
 
 NextJS is a **framework for ReactJS**.
 
@@ -31,6 +33,7 @@ In this article, we'll dive into the core concepts and features NextJS has to of
 - Much More
 
 ## File-based Routing
-![Create routes via your file + folder structure](nextjs-file-based-routing.png)
+
+![Create routes via your file + folder structure (priority)(300x200)](nextjs-file-based-routing.png)
 
 ... More content ...

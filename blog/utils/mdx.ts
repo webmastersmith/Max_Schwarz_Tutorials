@@ -1,82 +1,118 @@
-import fs from 'fs'
-import path from 'path'
-import { bundleMDX } from 'mdx-bundler'
-import { uuid } from './utils'
-import { PostType } from 'types'
-import { BundleMDX } from 'mdx-bundler/dist/types'
+import Image from 'next/image'
+import { getMDXComponent } from 'mdx-bundler/client'
+import { useMemo } from 'react'
 
-const ROOT = process.cwd()
-const POSTS_PATH = path.join(ROOT, 'posts')
+const Paragraph = (node: any) => {
+  //props: children: { type: 'img', props: { src: 'woods.jpg', alt: "woods.jpg" }}
+  console.log('node', node)
 
-export const getAllPostsFileNames = () => {
-  return fs.readdirSync(POSTS_PATH)
-}
+  if (typeof node.children !== 'string' && node.children.type === 'img') {
+    const {
+      children: { type, props },
+    } = node
 
-export const getFileContent = (filename: string) => {
-  return fs.readFileSync(path.join(POSTS_PATH, filename), 'utf8')
-}
+    //![AltText (priority)(300x200)|(fill)](image.jpg)
+    console.log('props.alt', props.alt)
+    const alt = props.alt?.replace(/ *[(].*[)]/g, '')
+    console.log('alt', alt)
+    const isPriority = props.alt
+      ? props.alt.toLowerCase().includes('(priority)')
+      : false
+    console.log('isPriority', isPriority)
+    const size = props.alt.match(/\((\d*)x(\d*)\)/)
+    console.log('size', size)
+    const width = size ? size[1] : '768'
+    const height = size ? size[2] : '432'
+    console.log('width, height', width, height)
 
-// returns compiled mdx: { code, frontmatter, matter }
-export const getCompiledMDX = async (fileName: string): Promise<PostType> => {
-  if (process.platform === 'win32') {
-    process.env.ESBUILD_BINARY_PATH = path.join(
-      process.cwd(),
-      'node_modules',
-      'esbuild',
-      'esbuild.exe'
+    // <> {} / must be escaped in mdx.
+    const blurDataURL = props.alt.match(/data:[\w/\\;,=]+/)
+    console.log('dataBlur', blurDataURL)
+
+    return (
+      <div>
+        <Image
+          src={`/images/${props.src}`}
+          alt={alt}
+          width={width}
+          height={height}
+          priority={isPriority}
+          placeholder="blur"
+          blurDataURL={blurDataURL}
+        />
+      </div>
     )
-  } else {
-    process.env.ESBUILD_BINARY_PATH = path.join(
-      process.cwd(),
-      'node_modules',
-      'esbuild',
-      'bin',
-      'esbuild'
-    )
   }
-  // const content = fs.readFileSync(path.join(POSTS_PATH, fileName), 'utf8')
-
-  // Add your remark and rehype plugins here
-  const remarkPlugins: any = []
-  const rehypePlugins: any = []
-  try {
-    const post = await bundleMDX({
-      file: path.join(POSTS_PATH, fileName),
-      cwd: POSTS_PATH,
-      xdmOptions(options: any) {
-        options.remarkPlugins = [
-          ...(options.remarkPlugins ?? []),
-          ...remarkPlugins,
-        ]
-        options.rehypePlugins = [
-          ...(options.rehypePlugins ?? []),
-          ...rehypePlugins,
-        ]
-        return options
-      },
-    })
-    return {
-      ...(post.frontmatter as PostType),
-      id: uuid(''),
-      slug: fileName.replace(/\.mdx$/, ''),
-      code: post.code,
-      content: post.matter.content,
-    }
-  } catch (error: any) {
-    throw new Error(error)
-  }
+  return <p {...node} />
 }
 
-export const getAllMdxPosts = async (): Promise<PostType[]> => {
-  const files = getAllPostsFileNames()
-  return await Promise.all(files.map((file) => getCompiledMDX(file)))
+// const Anchor: React.FC<Partial<ReactHTMLElement<HTMLAnchorElement>['props']>> =
+//   props => {
+//     const {href, children} = props
+//     if (!href) {
+//       return <a {...props} />
+//     }
+//     if (href!.substr(0, 4) === 'http') {
+//       return (
+//         <OutboundLink eventLabel="Content Outbound Link" to={href!}>
+//           {children}
+//         </OutboundLink>
+//       )
+//     }
+//     return (
+//       <Link href={href!}>
+//         <a>{children}</a>
+//       </Link>
+//     )
+//   }
+
+// const Img = (props: any) => {
+//   const { src, alt } = props
+//   console.log('props', props)
+
+//   return <Image src={`/images/${src}`} alt={alt} width={300} height={200} />
+// }
+
+const components = {
+  // img: Img,
+  p: Paragraph,
+  // a: Anchor,
+  // pre: (preProps: Partial<ReactHTMLElement<HTMLPreElement>['props']>) => {
+  //   const props = preToCodeBlock(preProps)
+
+  //   if (props) {
+  //     return <Code {...props} />
+  //   }
+
+  //   return <pre {...preProps} />
+  // }
 }
-export const getFeaturedMdxPosts = async (): Promise<PostType[]> => {
-  const files = getAllPostsFileNames()
-  const posts = []
-  for (const file of files) {
-    const post = await getCompiledMDX(file)
-    if (post.isFeatured) posts.push(post)
+
+const Home = ({ code, frontmatter, blurDataURL }: any) => {
+  // console.log(code)
+  console.log('frontmatterrrrr', frontmatter)
+  console.log('blurDataURL', blurDataURL)
+
+  const Component = React.useMemo(() => getMDXComponent(code), [code])
+
+  return (
+    <div className={styles.container}>
+      <p>Title: {frontmatter.title}</p>
+      <Component components={components} />
+    </div>
+  )
+}
+
+export default Home
+
+export const getStaticProps = async () => {
+  const data = await getCompiledMDX(getFileContent('example.mdx'))
+  const { base64 } = await getPlaiceholder(`/images/woods.jpg`)
+  console.log('base64', base64)
+
+  // console.log('data', data)
+
+  return {
+    props: { ...data, blurDataURL: base64 },
   }
-  return posts
 }

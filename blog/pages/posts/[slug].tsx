@@ -10,8 +10,6 @@ interface Props {
 }
 
 const PostPage: NextPage<Props> = ({ post }) => {
-  if (!post?.date) return <p>No Detail Page found.</p>
-  const imagePath = `/images/posts/${post.slug}/${post.image}`
   return <PostDetail post={post} />
 }
 export default PostPage

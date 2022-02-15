@@ -10,11 +10,13 @@ interface Props {
 }
 
 export const PostDetail: NextPage<Props> = ({ post }): JSX.Element => {
-  const { title, image, code } = post
+  const { title, image, code, slug } = post
+  const imagePath = `/images/posts/${slug}/${image}`
   const MDX = useMemo(() => getMDXComponent(code), [code])
+
   return (
     <article className={styles.content}>
-      <PostDetailHeader title={title} image={image} />
+      <PostDetailHeader title={title} image={imagePath} />
       <MDX />
     </article>
   )

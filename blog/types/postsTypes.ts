@@ -1,4 +1,3 @@
-import { getCompiledMDX } from 'utils'
 export interface PostType {
   date: string
   title: string

@@ -9,6 +9,7 @@ interface Props {
 }
 export const PostItem: NextPage<Props> = ({ post }): JSX.Element => {
   const { date, title, image, excerpt, slug } = post
+
   const formattedDate = new Date(date).toLocaleString('en-US', {
     day: 'numeric',
     month: 'long',
