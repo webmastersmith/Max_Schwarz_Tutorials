@@ -1,15 +1,9 @@
-import type { NextPage } from 'next'
-import { useMemo } from 'react'
 import Image from 'next/image'
-import { getMDXComponent } from 'mdx-bundler/client'
 import { PostType } from 'types'
 
-interface Props {
-  post: PostType
-}
+export function getImage(post: PostType) {
+  const { blurDataURL, image } = post
 
-export const MdxImage: NextPage<Props> = ({ post }) => {
-  const { code, blurDataURL, image } = post
   const Paragraph = (node: any) => {
     //props: children: { type: 'img', props: { src: 'woods.jpg', alt: "woods.jpg" }}
 
@@ -55,11 +49,5 @@ export const MdxImage: NextPage<Props> = ({ post }) => {
     }
     return <p {...node} />
   }
-  const components = {
-    p: Paragraph,
-  }
-  const Component = useMemo(() => getMDXComponent(code), [code])
-  return <Component components={components} />
+  return Paragraph
 }
-
-// export const MdxImage = memo(_MdxImage)
