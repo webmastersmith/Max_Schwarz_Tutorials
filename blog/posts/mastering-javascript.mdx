@@ -6,7 +6,7 @@ isFeatured: false
 date: '2021-10-30'
 ---
 
-JavaScript powers the web - it's **the** most important programming language you need to know as a web developer.
+<p class="test1">JavaScript powers the web - it's **the** most important programming language you need to know as a web developer.</p>
 
 For example, you should understand code like this:
 
@@ -22,6 +22,17 @@ printBasics();
 
 Learn more about it [here](https://academind.com).
 
-<Image src='/images/posts/getting-started-nextjs.png' alt='Create Routes' width={500} height={300} />
+<Image src='/images/posts/getting-started-nextjs.png' alt='Create Routes' width={500} height={300} placeholder='blur' blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMElEQVQImWOIUtu1Nvv/lND/ogw5DNX2t/9f+/9/z38DhhYGY+b+OtdXCTpHGBiCAHRDEaZL/fRWAAAAAElFTkSuQmCC" />
 
 <Youtube id="BwuLxPH8IDs" />
+
+```html
+ <Image
+      alt="Mountains"
+      src={mountains}
+      placeholder="blur"  //"blur" | "empty"(default)
+      [<span style={{fontWeight: 'bold'}}>blurDataURL="data:image/..."</span>]
+      width={700}
+      height={475}
+    />
+```
