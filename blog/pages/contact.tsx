@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
+import { ContactForm } from 'components'
 
 const ContactPage: NextPage = ({ children }) => {
-  return <div>ContactPage</div>
+  return <ContactForm />
 }
 
 export default ContactPage
