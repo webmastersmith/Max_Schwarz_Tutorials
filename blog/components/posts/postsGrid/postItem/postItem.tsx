@@ -4,10 +4,7 @@ import Link from 'next/link'
 import styles from './postItem.module.scss'
 import { PostType } from 'types'
 
-interface Props {
-  post: PostType
-}
-export const PostItem: NextPage<Props> = ({ post }): JSX.Element => {
+export const PostItem: NextPage<PostType> = ({ post }): JSX.Element => {
   const { date, title, image, excerpt, slug } = post
 
   const formattedDate = new Date(date).toLocaleString('en-US', {
@@ -21,7 +18,7 @@ export const PostItem: NextPage<Props> = ({ post }): JSX.Element => {
         <a>
           <div className={styles.image}>
             <Image
-              src={`/images/posts/${slug}/${image}`}
+              src={`/images/posts/${image}`}
               alt={title}
               width={300}
               height={200}

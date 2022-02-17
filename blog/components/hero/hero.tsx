@@ -2,10 +2,6 @@ import type { NextPage } from 'next'
 import styles from './hero.module.scss'
 import Image from 'next/image'
 
-// interface AppProps {
-//   data: string
-// }
-
 export const Hero: NextPage = (): JSX.Element => {
   return (
     <section className={styles.hero}>

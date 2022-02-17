@@ -1,21 +1,16 @@
 import type { NextPage } from 'next'
+import Image from 'next/image'
 import { PostType } from 'types'
 import styles from './postDetail.module.scss'
 import { PostDetailHeader } from './postDetailHeader'
-import { MdxImage } from 'components'
+import { MDX, Youtube } from 'components'
+import 'highlight.js/styles/mono-blue.css'
 
-interface Props {
-  post: PostType
-}
-
-export const PostDetail: NextPage<Props> = ({ post }): JSX.Element => {
-  const { title, image, slug } = post
-  const imagePath = `/images/posts/${slug}/${image}`
-
+export const PostDetail: NextPage<PostType> = ({ post }): JSX.Element => {
   return (
     <article className={styles.content}>
-      <PostDetailHeader title={title} image={imagePath} />
-      <MdxImage post={post} />
+      <PostDetailHeader post={post} />
+      <MDX post={post} components={{ Image, Youtube }} />
     </article>
   )
 }

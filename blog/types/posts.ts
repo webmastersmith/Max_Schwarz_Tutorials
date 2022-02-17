@@ -1,4 +1,4 @@
-export interface PostType {
+export interface Post {
   date: string
   title: string
   image: string
@@ -6,11 +6,14 @@ export interface PostType {
   isFeatured: boolean
   slug: string
   id: string
-  code: string
-  content: string
-  blurDataURL?: string
+  compiledSource: string
+  content?: string
+}
+
+export interface PostType {
+  post: Post
 }
 
 export interface PostsType {
-  posts: PostType[]
+  posts: Post[]
 }

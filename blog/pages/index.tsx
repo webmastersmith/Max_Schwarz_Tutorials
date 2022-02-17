@@ -2,7 +2,7 @@ import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { Hero, FeaturedPosts } from 'components'
 import { PostsType } from 'types'
-import { getFeaturedMdxPosts } from 'utils'
+import { getFeaturedPosts } from 'utils'
 
 const HomePage: NextPage<PostsType> = ({ posts }) => {
   // 1) hero -welcome page that present main product or yourself in the case of a blog.
@@ -22,7 +22,7 @@ const HomePage: NextPage<PostsType> = ({ posts }) => {
 export default HomePage
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const posts = await getFeaturedMdxPosts()
+  const posts = await getFeaturedPosts()
   return {
     props: { posts },
   }

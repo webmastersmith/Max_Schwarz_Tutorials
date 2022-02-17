@@ -1,6 +1,6 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from 'next'
 import { PostDetail } from 'components'
-import { getAllPostsFileNames, getCompiledMDX } from 'utils'
+import { getAllFileNames, getPost } from 'utils'
 import { PostType } from 'types'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
@@ -19,7 +19,7 @@ interface PropsType extends ParsedUrlQuery {
 }
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as PropsType
-  const post = await getCompiledMDX(slug)
+  const post = await getPost(slug)
   return {
     props: {
       post,
@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getAllPostsFileNames().map((slug: string) => ({
+  const paths = getAllFileNames().map((slug: string) => ({
     params: { slug },
   }))
 

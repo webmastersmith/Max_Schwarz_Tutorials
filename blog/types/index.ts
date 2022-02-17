@@ -1,1 +1,1 @@
-export * from './postsTypes'
+export * from './posts'

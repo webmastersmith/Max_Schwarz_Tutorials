@@ -1,88 +1,84 @@
 import fs from 'fs'
 import path from 'path'
-import { bundleMDX } from 'mdx-bundler'
-import { uuid } from './utils'
-import { PostType } from 'types'
+import { uuid } from 'utils'
+import { Post } from 'types'
+import { serialize } from 'next-mdx-remote/serialize'
+import matter from 'gray-matter'
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeHighlight from 'rehype-highlight'
 
-const ROOT = process.cwd()
-const POSTS_PATH = path.join(ROOT, 'posts')
+const POST_PATH = path.join(process.cwd(), 'posts')
 
-export const getAllPostsFileNames = () => {
-  return fs
-    .readdirSync(POSTS_PATH)
-    .reduce((acc: string[], file: string): string[] => {
-      // filter for mdx files and remove file extension
-      if (/\.mdx$/.test(file)) {
-        acc.push(file.replace(/\.mdx$/, ''))
-      }
-      return acc
-    }, [])
+export const getAllFileNames = (): string[] => {
+  return fs.readdirSync(POST_PATH).reduce((acc: string[], file: string) => {
+    if (/\.mdx$/.test(file)) {
+      acc.push(file.replace(/\.mdx$/, ''))
+    }
+    return acc
+  }, [])
 }
-
-// returns compiled mdx: { code, frontmatter, matter }
-export const getCompiledMDX = async (fileName: string): Promise<PostType> => {
-  const slug = fileName.replace(/\.mdx/, '')
-
-  if (process.platform === 'win32') {
-    process.env.ESBUILD_BINARY_PATH = path.join(
-      process.cwd(),
-      'node_modules',
-      'esbuild',
-      'esbuild.exe'
-    )
-  } else {
-    process.env.ESBUILD_BINARY_PATH = path.join(
-      process.cwd(),
-      'node_modules',
-      'esbuild',
-      'bin',
-      'esbuild'
-    )
+export const getPost = async (slug: string): Promise<Post> => {
+  const options = {
+    remarkPlugins: [],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+      rehypeHighlight,
+    ],
   }
-  // const content = fs.readFileSync(path.join(POSTS_PATH, fileName), 'utf8')
-
-  // Add your remark and rehype plugins here
-  const remarkPlugins: any = []
-  const rehypePlugins: any = []
-
   try {
-    const post = await bundleMDX({
-      file: path.join(POSTS_PATH, `${slug}.mdx`),
-      cwd: POSTS_PATH,
-      xdmOptions(options: any) {
-        options.remarkPlugins = [
-          ...(options.remarkPlugins ?? []),
-          ...remarkPlugins,
-        ]
-        options.rehypePlugins = [
-          ...(options.rehypePlugins ?? []),
-          ...rehypePlugins,
-        ]
-        return options
-      },
+    const source = fs.readFileSync(path.join(POST_PATH, slug + '.mdx'))
+
+    const { content, data } = matter(source)
+    const { compiledSource } = await serialize(content, {
+      // @ts-ignore
+      mdxOptions: options,
     })
+    const { date, title, image, excerpt, isFeatured } = data as Post
     return {
-      ...(post.frontmatter as PostType),
-      id: uuid(''),
+      compiledSource,
       slug,
-      code: post.code,
-      content: post.matter.content,
+      image: image ?? '',
+      excerpt: excerpt ?? '',
+      isFeatured: isFeatured ?? false,
+      date: date ?? new Date().toISOString().split('T')[0],
+      title: title ?? slug,
+      id: uuid(''),
     }
   } catch (error: any) {
     throw new Error(error)
   }
 }
 
-export const getAllMdxPosts = async (): Promise<PostType[]> => {
-  const files = getAllPostsFileNames()
-  return await Promise.all(files.map((file) => getCompiledMDX(file)))
-}
-export const getFeaturedMdxPosts = async (): Promise<PostType[]> => {
-  const files = getAllPostsFileNames()
-  const posts = []
-  for (const file of files) {
-    const post = await getCompiledMDX(file)
-    if (post.isFeatured) posts.push(post)
+export const getAllPosts = async (): Promise<Post[]> => {
+  const fileNames = getAllFileNames()
+  let posts: Post[] = []
+  try {
+    posts = await Promise.all(fileNames.map((fileName) => getPost(fileName)))
+  } catch (error: any) {
+    throw new Error(error)
   }
+  posts.sort((aObj: Post, bObj: Post) => {
+    const a = aObj.date
+    const b = bObj.date
+    return a < b ? -1 : a > b ? 1 : 0 //small to big
+  })
+  return posts
+}
+export const getFeaturedPosts = async (): Promise<Post[]> => {
+  const fileNames = getAllFileNames()
+  let _posts: Post[] = []
+  try {
+    _posts = await Promise.all(fileNames.map((fileName) => getPost(fileName)))
+  } catch (error: any) {
+    throw new Error(error)
+  }
+  _posts.sort((aObj: Post, bObj: Post) => {
+    const a = aObj.date
+    const b = bObj.date
+    return a < b ? -1 : a > b ? 1 : 0 //small to big
+  })
+  const posts = _posts.filter((post) => post.isFeatured)
   return posts
 }
