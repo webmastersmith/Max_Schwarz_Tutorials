@@ -52,7 +52,7 @@ export const ContactForm: NextPage = () => {
       setErrorMsg(JSON.stringify(`${error} ${result.msg}`))
     }
     //reset form.
-    // if (event.target instanceof HTMLFormElement) event.target.reset()
+    if (event.target instanceof HTMLFormElement) event.target.reset()
   }
 
   let notify: MsgType = { status, title: '', msg: '', isOpen: !!status }
