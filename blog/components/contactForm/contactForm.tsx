@@ -43,7 +43,6 @@ export const ContactForm: NextPage = () => {
       if (res.status > 399) {
         throw new Error(result.msg)
       }
-      console.log('result', result)
       setStatus('success')
       setMsg(result.msg)
     } catch (error) {
