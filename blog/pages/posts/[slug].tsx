@@ -5,11 +5,7 @@ import { PostType } from 'types'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
 
-interface Props {
-  post: PostType
-}
-
-const PostPage: NextPage<Props> = ({ post }) => {
+const PostPage: NextPage<PostType> = ({ post }) => {
   return <PostDetail post={post} />
 }
 export default PostPage
