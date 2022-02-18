@@ -17,3 +17,9 @@ export interface PostType {
 export interface PostsType {
   posts: Post[]
 }
+
+export interface MsgType {
+  title: string
+  msg: string
+  status: 'pending' | 'error' | 'success' | null
+}

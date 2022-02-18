@@ -1,30 +1,79 @@
 import type { NextPage } from 'next'
 import React, { useState } from 'react'
 import styles from './contactForm.module.scss'
+import { Notification } from 'components'
+import { MsgType } from 'types'
 
+interface DataType {
+  email: FormDataEntryValue
+  message: FormDataEntryValue
+  fullName: FormDataEntryValue
+}
+async function sendData(data: DataType) {
+  const res = await fetch('http://localhost:3000/api/form', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+  const result = await res.json()
+  if (res.status > 399) {
+    return {
+      msg: "Opp's! Something went wrong, try again later.",
+    }
+  }
+  return result
+}
+type StatusType = 'pending' | 'success' | 'error' | null
 export const ContactForm: NextPage = () => {
   const [msg, setMsg] = useState<string>('')
+  const [status, setStatus] = useState<StatusType>(null)
+  const [errorMsg, setErrorMsg] = useState<unknown | string>('')
   const handleSubmit: React.FormEventHandler = async (event): Promise<void> => {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
-    const dataObject = Object.fromEntries(formData)
+    const dataObject: unknown = Object.fromEntries(formData)
+    const data = dataObject as DataType
     // console.log('dataObject', dataObject)
-    await fetch('http://localhost:3000/api/form', {
-      method: 'POST',
-      body: JSON.stringify(dataObject),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMsg(data.msg)
-        console.log(data)
-        if (event.target instanceof HTMLFormElement) event.target.reset()
-      })
-
+    setStatus('pending')
+    let result: { msg: string } = { msg: '' }
+    try {
+      result = await sendData(data)
+      setStatus('success')
+      setMsg(result.msg)
+    } catch (error) {
+      console.log('error', error)
+      setStatus('error')
+      setErrorMsg(JSON.stringify(`${error} ${result.msg}`))
+    }
     //reset form.
+    // if (event.target instanceof HTMLFormElement) event.target.reset()
   }
+
+  let notify: MsgType = { status, title: '', msg: '' }
+  if (status === 'pending') {
+    notify = {
+      status,
+      title: 'Sending',
+      msg: 'Talking to server...',
+    }
+  }
+  if (status === 'success') {
+    notify = {
+      status,
+      title: 'Success',
+      msg,
+    }
+  }
+  if (status === 'error') {
+    notify = {
+      status,
+      title: 'Error',
+      msg: errorMsg,
+    }
+  }
+
   return (
     <section className={styles.contact}>
-      <h1>{msg ? msg : 'How can I help you?'}</h1>
+      <h1>How can I help you?</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.controls}>
           <div className={styles.control}>
@@ -45,6 +94,7 @@ export const ContactForm: NextPage = () => {
           <button type="submit">Send Message</button>
         </div>
       </form>
+      {!!notify.status && Notification(notify)}
     </section>
   )
 }
