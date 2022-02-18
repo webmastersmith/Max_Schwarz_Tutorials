@@ -20,6 +20,6 @@ export interface PostsType {
 
 export interface MsgType {
   title: string
-  msg: string
+  msg: string | unknown
   status: 'pending' | 'error' | 'success' | null
 }
