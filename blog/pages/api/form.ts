@@ -10,9 +10,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log('server req', req)
-  console.log('server req', req.headers)
-
   if (req.method === 'POST') {
     const _response = JSON.parse(req.body)
     const response = { ..._response, date: new Date().toISOString() }

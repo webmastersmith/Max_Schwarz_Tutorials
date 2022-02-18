@@ -13,7 +13,7 @@ type StatusType = 'pending' | 'success' | 'error' | null
 export const ContactForm: NextPage = () => {
   const [msg, setMsg] = useState<string>('')
   const [status, setStatus] = useState<StatusType>(null)
-  const [errorMsg, setErrorMsg] = useState<unknown | string>('')
+  const [errorMsg, setErrorMsg] = useState<string>('')
 
   // clear message after 3 seconds.
   useEffect(() => {
@@ -52,15 +52,16 @@ export const ContactForm: NextPage = () => {
       setErrorMsg(JSON.stringify(`${error} ${result.msg}`))
     }
     //reset form.
-    if (event.target instanceof HTMLFormElement) event.target.reset()
+    // if (event.target instanceof HTMLFormElement) event.target.reset()
   }
 
-  let notify: MsgType = { status, title: '', msg: '' }
+  let notify: MsgType = { status, title: '', msg: '', isOpen: !!status }
   if (status === 'pending') {
     notify = {
       status,
       title: 'Sending',
       msg: 'Talking to server...',
+      isOpen: !!status,
     }
   }
   if (status === 'success') {
@@ -68,6 +69,7 @@ export const ContactForm: NextPage = () => {
       status,
       title: 'Success',
       msg,
+      isOpen: !!status,
     }
   }
   if (status === 'error') {
@@ -75,6 +77,7 @@ export const ContactForm: NextPage = () => {
       status,
       title: 'Error',
       msg: errorMsg,
+      isOpen: !!status,
     }
   }
 
@@ -103,7 +106,7 @@ export const ContactForm: NextPage = () => {
           </button>
         </div>
       </form>
-      {!!notify.status && Notification(notify)}
+      <Notification notify={notify} />
     </section>
   )
 }

@@ -1,7 +1,12 @@
-import styles from './notification.module.css'
+import { createPortal } from 'react-dom'
 import { MsgType } from 'types'
+import styles from './notification.module.css'
 
-export function Notification({ title, msg, status }: MsgType) {
+interface Props {
+  notify: MsgType
+}
+export function Notification({ notify }: Props) {
+  const { title, msg, status, isOpen } = notify
   let statusClasses = ''
 
   if (status === 'success') {
@@ -14,10 +19,13 @@ export function Notification({ title, msg, status }: MsgType) {
 
   const cssClasses = `${styles.notification} ${statusClasses}`
 
-  return (
-    <div className={cssClasses}>
-      <h2>{title}</h2>
-      <p>{msg}</p>
-    </div>
-  )
+  return isOpen
+    ? createPortal(
+        <div className={cssClasses}>
+          <h2>{title}</h2>
+          <p>{msg}</p>
+        </div>,
+        document.body
+      )
+    : null
 }

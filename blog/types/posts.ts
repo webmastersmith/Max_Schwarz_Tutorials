@@ -20,6 +20,7 @@ export interface PostsType {
 
 export interface MsgType {
   title: string
-  msg: string | unknown
+  msg: string
   status: 'pending' | 'error' | 'success' | null
+  isOpen: boolean
 }
