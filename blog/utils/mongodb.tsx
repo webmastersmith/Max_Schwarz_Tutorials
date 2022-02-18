@@ -11,9 +11,13 @@ export async function mongoRun(response: MongoType) {
     // Connect the client to the server
     await client.connect()
     // console.log('Connected successfully to blog server')
+
+    // returns boolean, unless error with MongoClient throws error, that will be caught in the catch block.
     return await addItemToCollection(client, response)
   } catch (e) {
-    console.error(e)
+    console.error('mongoRun fn error', e)
+    // if error return response to server logic.
+    return false
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close()

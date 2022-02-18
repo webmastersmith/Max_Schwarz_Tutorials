@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './contactForm.module.scss'
 import { Notification } from 'components'
 import { MsgType } from 'types'
@@ -9,24 +9,23 @@ interface DataType {
   message: FormDataEntryValue
   fullName: FormDataEntryValue
 }
-async function sendData(data: DataType) {
-  const res = await fetch('http://localhost:3000/api/form', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  })
-  const result = await res.json()
-  if (res.status > 399) {
-    return {
-      msg: "Opp's! Something went wrong, try again later.",
-    }
-  }
-  return result
-}
 type StatusType = 'pending' | 'success' | 'error' | null
 export const ContactForm: NextPage = () => {
   const [msg, setMsg] = useState<string>('')
   const [status, setStatus] = useState<StatusType>(null)
   const [errorMsg, setErrorMsg] = useState<unknown | string>('')
+
+  // clear message after 3 seconds.
+  useEffect(() => {
+    if (status === 'success' || status === 'error') {
+      const timer = setTimeout(() => {
+        setStatus(null)
+        setErrorMsg('')
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [status])
+
   const handleSubmit: React.FormEventHandler = async (event): Promise<void> => {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
@@ -36,7 +35,15 @@ export const ContactForm: NextPage = () => {
     setStatus('pending')
     let result: { msg: string } = { msg: '' }
     try {
-      result = await sendData(data)
+      const res = await fetch('http://localhost:3000/api/form', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      const result = await res.json()
+      if (res.status > 399) {
+        throw new Error(result.msg)
+      }
+      console.log('result', result)
       setStatus('success')
       setMsg(result.msg)
     } catch (error) {
@@ -45,7 +52,7 @@ export const ContactForm: NextPage = () => {
       setErrorMsg(JSON.stringify(`${error} ${result.msg}`))
     }
     //reset form.
-    // if (event.target instanceof HTMLFormElement) event.target.reset()
+    if (event.target instanceof HTMLFormElement) event.target.reset()
   }
 
   let notify: MsgType = { status, title: '', msg: '' }
@@ -91,7 +98,9 @@ export const ContactForm: NextPage = () => {
           <textarea name="message" id="message" rows={5}></textarea>
         </div>
         <div className={styles.actions}>
-          <button type="submit">Send Message</button>
+          <button type="submit" disabled={!!status}>
+            Send Message
+          </button>
         </div>
       </form>
       {!!notify.status && Notification(notify)}
