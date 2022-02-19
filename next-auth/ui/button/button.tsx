@@ -2,18 +2,25 @@ import type { NextPage } from 'next'
 import styles from './button.module.scss'
 
 interface Props {
+  type: 'submit' | 'button'
+  className?: string
   style?: { [k: string]: any }
-  rest?: any
+  onClick?: () => void
 }
 
-export const Button: NextPage<Props> = ({ children, style, ...rest }) => {
+export const Button: NextPage<Props> = ({
+  children,
+  type,
+  style,
+  onClick = () => {},
+  className = '',
+}) => {
   return (
     <button
-      className={styles.button}
-      style={{
-        ...style,
-      }}
-      {...rest}
+      type={type}
+      className={styles.button + ' ' + className}
+      style={style}
+      onClick={onClick}
     >
       {children}
     </button>

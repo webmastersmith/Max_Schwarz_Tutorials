@@ -99,12 +99,10 @@ h6 {
 /* Bellow my custom addons*/
 /* to use variables: var(--red, fallback) */
 :root {
-  --red: #77002e;
   --single-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
-  --bg-color: #2E004F;
+  --bg-color: #2e004f;
   --bg-second: #9143c1;
   --borderRadius: 5px;
-
 }
 /* className="container" */
 .container {
@@ -112,4 +110,10 @@ h6 {
   display: grid;
   justify-items: center;
   gap: 1rem;
+}
+button.buttonHover {
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid var(--bg-second);
+  }
 }
