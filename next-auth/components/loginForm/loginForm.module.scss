@@ -1,0 +1,36 @@
+.container {
+  background-color: var(--bg-color);
+  color: #fff;
+  padding: 1rem;
+  margin-top: 4rem;
+  min-width: 25rem;
+  border-radius: var(--borderRadius);
+  h1 {
+    margin: 1rem 0;
+    font-weight: bold;
+  }
+  &,
+  form,
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  form,
+  div,
+  input {
+    width: 100%;
+  }
+  form {
+    gap: 1rem;
+  }
+  input {
+    border-radius: var(--borderRadius);
+  }
+  p {
+    color: var(--bg-second);
+  }
+  button {
+    background-color: var(--bg-second);
+  }
+}

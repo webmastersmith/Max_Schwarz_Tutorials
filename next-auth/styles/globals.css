@@ -101,6 +101,10 @@ h6 {
 :root {
   --red: #77002e;
   --single-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  --bg-color: #2E004F;
+  --bg-second: #9143c1;
+  --borderRadius: 5px;
+
 }
 /* className="container" */
 .container {

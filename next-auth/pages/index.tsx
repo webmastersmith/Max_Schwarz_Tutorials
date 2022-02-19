@@ -1,15 +1,12 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import { Nav } from 'components'
+import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
   return (
-    <div className="container">
-      <Nav />
-      <h1>Welcome on Board!</h1>
+    <div>
+      <h1 className={styles.h1}>Welcome on Board!</h1>
     </div>
   )
 }
 
-export default Home
+export default HomePage
