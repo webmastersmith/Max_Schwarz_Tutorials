@@ -5,12 +5,21 @@ import { Button } from 'ui'
 
 export const LoginForm: NextPage = () => {
   const [isLogin, setIsLogin] = useState(false)
+
   const handleSubmit: React.FormEventHandler = async (event): Promise<void> => {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
     const dataObject: unknown = Object.fromEntries(formData)
     const data = dataObject as { email: string; password: string }
-    console.log('data', data)
+
+    const res = await fetch('http://localhost:3000/api/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+    console.log(res.status)
+    const result = await res.json()
+    console.log(result)
+
     // if (event.target instanceof HTMLFormElement) event.target.reset() //reset form.
   }
   return (
@@ -43,7 +52,7 @@ export const LoginForm: NextPage = () => {
         }}
         onClick={() => setIsLogin(!isLogin)}
       >
-        {isLogin ? 'Login with existing account' : 'Create new account'}
+        {isLogin ? 'Create new account' : 'Login with existing account'}
       </Button>
     </div>
   )

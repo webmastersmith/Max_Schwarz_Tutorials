@@ -6,7 +6,9 @@ import { Button } from 'ui'
 export const Nav: NextPage = ({ children }) => {
   return (
     <div className={styles.navbar}>
-      <div className={styles.logo}>Next Auth</div>
+      <Link href="/">
+        <a className={styles.logo}>Next Auth</a>
+      </Link>
       <div className={styles.links}>
         <Link href="/login">Login</Link>
         <Link href="/profile">Profile</Link>

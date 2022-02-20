@@ -4,7 +4,14 @@
   display: flex;
   align-items: center;
   padding: 0 6rem;
+}
+.navbar,
+.logo,
+.link {
   color: #fff;
+}
+.logo:link {
+  text-decoration: none;
 }
 .logo {
   margin-right: auto;
@@ -13,14 +20,13 @@
 .links {
   font-weight: bold;
   a {
+    margin: 0 2rem;
+    color: #fff;
     &:first-child {
       margin: 0;
     }
     &:link {
       text-decoration: none;
     }
-
-    margin: 0 2rem;
-    color: #fff;
   }
 }
