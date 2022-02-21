@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import styles from './loginForm.module.scss'
 import { Button } from 'ui'
+import { signIn } from 'next-auth/client'
 
 export const LoginForm: NextPage = () => {
   const [isLogin, setIsLogin] = useState(false)
@@ -12,13 +13,27 @@ export const LoginForm: NextPage = () => {
     const dataObject: unknown = Object.fromEntries(formData)
     const data = dataObject as { email: string; password: string }
 
-    const res = await fetch('http://localhost:3000/api/auth/signup', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-    console.log(res.status)
-    const result = await res.json()
-    console.log(result)
+    console.log(data)
+    // if trying to login
+    if (isLogin) {
+      //redirect: false prevents screen change if error in login.
+      const { email, password } = data
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      })
+      console.log('client result', result)
+      // new client. sign up
+    } else {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      console.log(res.status)
+      const result = await res.json()
+      console.log(result)
+    }
 
     // if (event.target instanceof HTMLFormElement) event.target.reset() //reset form.
   }
@@ -28,11 +43,11 @@ export const LoginForm: NextPage = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label htmlFor="email">Your Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" name="email" id="email" required />
         </div>
         <div>
           <label htmlFor="password">Your Password</label>
-          <input type="password" name="password" id="password" />
+          <input type="password" name="password" id="password" required />
         </div>
 
         <Button
@@ -50,7 +65,7 @@ export const LoginForm: NextPage = () => {
           backgroundColor: 'var(--bg-color)',
           color: 'var(--bg-second)',
         }}
-        onClick={() => setIsLogin(!isLogin)}
+        onClick={() => setIsLogin((s) => !s)}
       >
         {isLogin ? 'Create new account' : 'Login with existing account'}
       </Button>
