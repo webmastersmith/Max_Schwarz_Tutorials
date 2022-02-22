@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import styles from './loginForm.module.scss'
 import { Button } from 'ui'
-import { signIn } from 'next-auth/client'
+import { signIn } from 'next-auth/react'
 
 export const LoginForm: NextPage = () => {
   const [isLogin, setIsLogin] = useState(false)
@@ -23,7 +23,7 @@ export const LoginForm: NextPage = () => {
         email,
         password,
       })
-      console.log('client result', result)
+      console.log('loginForm signIn result', result)
       // new client. sign up
     } else {
       const res = await fetch('/api/auth/signup', {
