@@ -23,15 +23,13 @@ export const ResetPasswordForm: NextPage<Props> = ({ profile }) => {
       newPassword: string
     }
 
-    const userData = { ...data, email: profile?.user?.email, id: profile?.id }
-    console.log('form data', userData)
     //redirect: false prevents screen change if error in login.
     const res = await fetch('http://localhost:3000/api/user/change-password', {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(data),
     })
     const result = await res.json()
 
