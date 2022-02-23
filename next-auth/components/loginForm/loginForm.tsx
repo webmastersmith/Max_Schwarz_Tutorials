@@ -1,11 +1,19 @@
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styles from './loginForm.module.scss'
 import { Button } from 'ui'
 import { signIn } from 'next-auth/react'
 
+interface Result {
+  error: any
+  ok: boolean
+  status: number
+  url: string
+}
 export const LoginForm: NextPage = () => {
   const [isLogin, setIsLogin] = useState(false)
+  const router = useRouter()
 
   const handleSubmit: React.FormEventHandler = async (event): Promise<void> => {
     event.preventDefault()
@@ -18,12 +26,15 @@ export const LoginForm: NextPage = () => {
     if (isLogin) {
       //redirect: false prevents screen change if error in login.
       const { email, password } = data
-      const result = await signIn('credentials', {
+      const result: unknown = await signIn('credentials', {
+        callbackUrl: 'http://localhost:3000/profile',
         redirect: false,
         email,
         password,
       })
-      console.log('loginForm signIn result', result)
+      const signInResult = result as Result
+      console.log('loginForm signInResult', signInResult)
+      if (signInResult.ok) router.push(signInResult.url)
       // new client. sign up
     } else {
       const res = await fetch('/api/auth/signup', {

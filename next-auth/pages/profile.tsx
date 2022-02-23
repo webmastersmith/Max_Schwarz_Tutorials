@@ -1,32 +1,36 @@
 import type { NextPage, GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
-import { LoginForm } from 'components'
+// import { useRouter } from 'next/router'
+import { ResetPasswordForm } from 'components'
 import { useSession, getSession } from 'next-auth/react'
-import { useEffect } from 'react'
-// import { useState, useEffect } from 'react'
-interface Props {
-  user: {}
+import { useEffect, useState } from 'react'
+
+interface Profile {
+  expires: string
+  id: string
+  user: { email: string }
 }
-const ProfilePage: NextPage<Props> = ({ children, user }) => {
-  // const [isLoading, setIsLoading] = useState(true)
-  // const [loadedSession, setLoadedSession] = useState(null)
+interface Props {
+  profile: Profile
+}
+const ProfilePage: NextPage<Props> = ({ profile }) => {
+  const [userSession, setUserSession] = useState<Profile | null>(null)
+  console.log('profile', profile)
   useEffect(() => {
-    if (user) {
+    if (profile) {
+      setUserSession(profile)
     }
-  }, [user])
-  const { data: session, status } = useSession()
-  // console.log('profile page', status)
-  const router = useRouter()
+  }, [profile])
 
-  if (status === 'unauthenticated') router.push('/')
-  if (status === 'loading') return <p>Loading...</p>
-
+  const { expires, id, user } = profile
   return (
     <div>
       <h1 style={{ textAlign: 'center', marginTop: '2rem' }}>
         Your User Profile
       </h1>
-      <LoginForm />
+      <ResetPasswordForm profile={profile} />
+      <p style={{ marginTop: '2rem' }}>{id}</p>
+      <p>Cookie Expiration: {expires}</p>
+      <p>{user?.email}</p>
     </div>
   )
 }
@@ -36,11 +40,17 @@ export default ProfilePage
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // console.log('profile context req', context.req.cookies)
   const session = await getSession(context)
-  // console.log('profilepage session', session)
+  const profile = session
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   return {
-    props: {
-      user: {},
-    },
+    props: { profile },
   }
 }

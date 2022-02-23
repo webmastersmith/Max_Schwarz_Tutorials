@@ -16,6 +16,10 @@ interface UserDB {
 }
 
 export default NextAuth({
+  pages: {
+    signIn: '/auth/signup',
+    error: '/auth/error',
+  },
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
@@ -30,13 +34,9 @@ export default NextAuth({
       return session
     },
   },
-  secret: 'test',
+  secret: process.env.NEXTAUTH_SECRET,
   jwt: {
-    secret: 'test',
-  },
-  pages: {
-    signIn: '/auth/signup',
-    error: '/auth/error',
+    secret: process.env.NEXTAUTH_SECRET,
   },
   providers: [
     CredentialsProvider({
@@ -50,10 +50,10 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials, req) => {
-        const client = await getClient()
+        const client = getClient()
         try {
           await client.connect()
-          const usersCollection = client.db().collection<User[]>('users')
+          const usersCollection = client.db().collection('users')
           const userDB = await usersCollection.findOne({
             email: req?.body?.email,
           })
@@ -69,7 +69,7 @@ export default NextAuth({
             throw new Error('Could not log in!')
           }
           // all checks passed, return something to encode into web token.
-          return { id: 1, email: userDB.email }
+          return { id: userDB._id, email: userDB.email }
         } catch (e) {
           console.error(e)
           return null

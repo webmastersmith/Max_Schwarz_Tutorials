@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getClient } from 'utils'
+import { getClient, createPasswordHash } from 'utils'
 import bcrypt from 'bcryptjs'
 
 type Data = {
@@ -83,8 +83,7 @@ async function createUser(
   email: string,
   password: string
 ): Promise<boolean> {
-  const salt = bcrypt.genSaltSync(12)
-  const hash = bcrypt.hashSync(password, salt)
+  const hash = createPasswordHash(bcrypt, password)
   return await collection.insertOne({
     email,
     password: hash,
